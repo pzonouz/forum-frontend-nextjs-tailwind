@@ -36,4 +36,7 @@
   .error-border {
     @apply border-2 border-red-600;
   }
+  .success {
+    @apply text-green-700 text-xs -mt-2;
+  }
 }

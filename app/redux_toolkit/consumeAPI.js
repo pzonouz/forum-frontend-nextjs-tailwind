@@ -12,9 +12,27 @@ export const api = createApi({
           return `questions/?limit=${limit}`;
         },
       }),
+      registerUser: builder.mutation({
+        query: ({ ...user }) => ({
+          url: `users/register`,
+          method: "POST",
+          body: user,
+        }),
+      }),
+      loginUser: builder.mutation({
+        query: ({ ...user }) => ({
+          url: `users/login`,
+          method: "POST",
+          body: user,
+        }),
+      }),
     };
   },
 });
 
-export const { useFetchQuestionQuery } = api;
+export const {
+  useFetchQuestionQuery,
+  useRegisterUserMutation,
+  useLoginUserMutation,
+} = api;
 export default api;

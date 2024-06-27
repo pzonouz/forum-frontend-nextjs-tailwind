@@ -3,6 +3,8 @@ import classNames from "classnames";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useRegisterUserMutation } from "@/app/redux_toolkit/consumeAPI";
+import Loading from "@/app/components/Loading";
 import { useEffect } from "react";
 
 const Register = () => {
@@ -14,9 +16,7 @@ const Register = () => {
         .email({ message: "ساختار ایمیل درست نیست" }),
       password1: z.string().min(6, { message: "حداقل ۶ کاراکتر وارد نمایید" }),
       password2: z.string().min(6, { message: "حداقل ۶ کاراکتر وارد نمایید" }),
-      nickName: z
-        .string()
-        .min(1, { message: "حداقل ۶ کاراکتر را وارد نمایید" }),
+      nickName: z.string().min(1, { message: "نام را وارد نمایید" }),
       phoneNumber: z
         .string()
         .min(11, { message: "موبایل را درست وارد نمایید" }),
@@ -36,12 +36,23 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: zodResolver(schema) });
-  const submitHandler = (data) => {};
+
+  const [
+    registerUser,
+    { error: registeredData, isSuccess, isLoading, isError },
+  ] = useRegisterUserMutation();
+
   useEffect(() => {
-    console.log(errors);
-  }, [errors]);
+    if (isSuccess) {
+      window.location.href = "/";
+    }
+  }, [isSuccess]);
+  const submitHandler = (data) => {
+    registerUser(data);
+  };
   return (
     <div className="w-72 mx-auto mt-12">
+      {isLoading ? <Loading /> : null}
       <h1 className="w-full text-xl font-bold centered">ثبت نام</h1>
       <form
         onSubmit={handleSubmit(submitHandler)}
@@ -55,7 +66,7 @@ const Register = () => {
             "error-border": errors?.email,
           })}
         />
-        <p className="error text-xs">{errors?.email?.message}</p>
+        <p className="error ">{errors?.email?.message}</p>
         <input
           {...register("password1")}
           placeholder="پسورد"
@@ -64,7 +75,7 @@ const Register = () => {
             "error-border": errors?.password1?.message,
           })}
         />
-        <p className="error text-xs">{errors?.password1?.message}</p>
+        <p className="error ">{errors?.password1?.message}</p>
         <input
           placeholder="پسورد"
           {...register("password2")}
@@ -74,7 +85,7 @@ const Register = () => {
               errors?.password2?.message || errors?.confirmPassword?.message,
           })}
         />
-        <p className="error text-xs">{errors?.password2?.message}</p>
+        <p className="error ">{errors?.password2?.message}</p>
         <input
           placeholder="نام"
           {...register("nickName")}
@@ -83,7 +94,7 @@ const Register = () => {
             "error-border": errors?.nickName?.message,
           })}
         />
-        <p className="error text-xs">{errors?.nickName?.message}</p>
+        <p className="error ">{errors?.nickName?.message}</p>
 
         <input
           placeholder="تلفن همراه"
@@ -93,9 +104,11 @@ const Register = () => {
             "error-border": errors?.phoneNumber?.message,
           })}
         />
-        <p className="error text-xs">{errors?.phoneNumber?.message}</p>
-        <p className="error text-xs">{errors?.confirmPassword?.message}</p>
+        <p className="error">{errors?.phoneNumber?.message}</p>
+        <p className="error">{errors?.confirmPassword?.message}</p>
         <button className="button button_primary">ثبت</button>
+        {isError && <p className="error">{registeredData?.data}</p>}
+        {isSuccess && <p className="success">با موفقیت انجام شد</p>}
       </form>
     </div>
   );

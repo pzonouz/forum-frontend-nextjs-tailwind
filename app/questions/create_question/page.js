@@ -3,29 +3,29 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import classNames from "classnames";
+import {
+  useCreateQuestionMutation,
+  useGetUserQuery,
+} from "@/app/redux_toolkit/consumeAPI";
+import { useLayoutEffect } from "react";
 
 const schema = z.object({
   title: z.string().min(6, { message: "حداقل ۶ کاراکتر را وارد کنید" }),
   description: z.string().min(6, { message: "حداقل ۶ کاراکتر را وارد کنید" }),
 });
 export default function CreateQuestion() {
+  const [createQuestion, { error, isError, isSuccess }] =
+    useCreateQuestionMutation();
   const onSubmit = async (data) => {
-    console.log(data);
-    try {
-      const response = await fetch("/api/v1/questions/", {
-        headers: {
-          Accept: "application/json",
-        },
-        body: JSON.stringify(data),
-        method: "POST",
-      });
-      if (!response.ok) {
-        throw new Error(await response.text());
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
+    createQuestion(data);
   };
+  const { isError: isUserError } = useGetUserQuery();
+  useLayoutEffect(() => {
+    if (isUserError) {
+      window.location.href = "/users/login";
+    }
+  }, [isUserError]);
+
   const {
     handleSubmit,
     register,
@@ -51,6 +51,8 @@ export default function CreateQuestion() {
       />
       <p className="error">{errors.description?.message}</p>
       <input className="button button_primary" type="submit" value="ثبت" />
+      {isError && <p className="error">{JSON.stringify(error?.data)}</p>}
+      {isSuccess && <p className="success">{"با موقعیت ایجاد شد"}</p>}
     </form>
   );
 }

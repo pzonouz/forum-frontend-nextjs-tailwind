@@ -42,6 +42,7 @@ const iranSans = localFont({
       weight: "900",
     },
   ],
+  preload: false,
 });
 
 export const metadata = {

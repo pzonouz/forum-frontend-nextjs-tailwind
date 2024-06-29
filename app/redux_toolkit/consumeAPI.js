@@ -4,6 +4,9 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost/api/v1/",
     credentials: "include",
+    headers: {
+      "content-type": "application/json",
+    },
   }),
   endpoints(builder) {
     return {
@@ -11,6 +14,13 @@ export const api = createApi({
         query(limit = 10) {
           return `questions/?limit=${limit}`;
         },
+      }),
+      createQuestion: builder.mutation({
+        query: ({ ...question }) => ({
+          url: `questions/`,
+          method: "POST",
+          body: question,
+        }),
       }),
       registerUser: builder.mutation({
         query: ({ ...user }) => ({
@@ -26,6 +36,11 @@ export const api = createApi({
           body: user,
         }),
       }),
+      getUser: builder.query({
+        query() {
+          return `users/`;
+        },
+      }),
     };
   },
 });
@@ -34,5 +49,7 @@ export const {
   useFetchQuestionQuery,
   useRegisterUserMutation,
   useLoginUserMutation,
+  useGetUserQuery,
+  useCreateQuestionMutation,
 } = api;
 export default api;

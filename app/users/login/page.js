@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -16,8 +17,15 @@ const schema = z.object({
 });
 
 const Login = () => {
-  const [loginUser, { data: loginData, error, isError, isSuccess, isLoading }] =
+  const [loginUser, { error, isError, isSuccess, isLoading }] =
     useLoginUserMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      window.location.href = "/";
+    }
+  }, [isSuccess]);
+
   const submitHandler = (data) => {
     loginUser(data);
   };
@@ -57,7 +65,7 @@ const Login = () => {
         >
           ورود
         </button>
-        {isError ? <p className="error">{loginData?.data}</p> : null}
+        {isError && <p className="error">{JSON.stringify(error?.data)}</p>}
         {isSuccess && <p className="success">با موفقیت انجام شد</p>}
       </form>
     </div>

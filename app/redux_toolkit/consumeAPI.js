@@ -12,7 +12,8 @@ export const api = createApi({
     return {
       fetchQuestions: builder.query({
         query(limit = 100, sortBy = "created_at", sortDirection = "DESC") {
-          return `questions/?limit=${limit}&sort_by=${sortBy}&sort_direction=${sortDirection}`;
+          // return `questions/?limit=${limit}&sort_by=${sortBy}&sort_direction=${sortDirection}`;
+          return `questions/`;
         },
       }),
       fetchQuestion: builder.query({

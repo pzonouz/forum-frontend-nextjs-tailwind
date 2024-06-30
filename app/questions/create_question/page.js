@@ -7,11 +7,14 @@ import {
   useCreateQuestionMutation,
   useGetUserQuery,
 } from "@/app/redux_toolkit/consumeAPI";
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 
 const schema = z.object({
-  title: z.string().min(6, { message: "حداقل ۶ کاراکتر را وارد کنید" }),
-  description: z.string().min(6, { message: "حداقل ۶ کاراکتر را وارد کنید" }),
+  title: z
+    .string()
+    .min(6, { message: "حداقل ۶ کاراکتر را وارد کنید" })
+    .max(40, { message: "عنوان را کوتاهتر وارد نمایید" }),
+  description: z.string().min(20, { message: "حداقل ۲۰ کاراکتر را وارد کنید" }),
 });
 export default function CreateQuestion() {
   const [createQuestion, { error, isError, isSuccess }] =
@@ -22,9 +25,14 @@ export default function CreateQuestion() {
   const { isError: isUserError } = useGetUserQuery();
   useLayoutEffect(() => {
     if (isUserError) {
-      window.location.href = "/users/login";
+      window.location.href = "/users/login?callback=/questions/create_question";
     }
   }, [isUserError]);
+  useEffect(() => {
+    if (isSuccess) {
+      window.location.href = "/";
+    }
+  }, [isSuccess]);
 
   const {
     handleSubmit,

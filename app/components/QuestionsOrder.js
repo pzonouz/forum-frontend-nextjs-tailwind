@@ -1,12 +1,16 @@
 "use client";
 import classNames from "classnames";
 
+export const questionOrderEnum = Object.freeze({
+  newest: "createdAt",
+  month: "",
+});
 const QuestionsOrder = ({ order, setOrder }) => {
   return (
     <div className=" flex font-bold border-2 items-center justify-center w-fit mx-auto rounded-md ">
       <p
         className={classNames("topQuestionItem", {
-          question_order_active: order == "newest",
+          question_order_active: order == questionOrderEnum.newest,
         })}
         onClick={() => {
           setOrder("newest");

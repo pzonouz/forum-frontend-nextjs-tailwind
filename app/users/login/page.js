@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import classNames from "classnames";
 import { useLoginUserMutation } from "@/app/redux_toolkit/consumeAPI";
 import Loading from "@/app/components/Loading";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const schema = z.object({
   email: z
@@ -17,14 +18,15 @@ const schema = z.object({
 });
 
 const Login = () => {
+  const callBack = useSearchParams().get("callback");
   const [loginUser, { error, isError, isSuccess, isLoading }] =
     useLoginUserMutation();
 
   useEffect(() => {
     if (isSuccess) {
-      window.location.href = "/";
+      window.location.href = callBack;
     }
-  }, [isSuccess]);
+  }, [isSuccess, callBack]);
 
   const submitHandler = (data) => {
     loginUser(data);

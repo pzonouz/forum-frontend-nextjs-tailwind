@@ -10,9 +10,14 @@ export const api = createApi({
   }),
   endpoints(builder) {
     return {
+      fetchQuestions: builder.query({
+        query(limit = 100, sortBy = "created_at", sortDirection = "DESC") {
+          return `questions/?limit=${limit}&sort_by=${sortBy}&sort_direction=${sortDirection}`;
+        },
+      }),
       fetchQuestion: builder.query({
-        query(limit = 10) {
-          return `questions/?limit=${limit}`;
+        query(id) {
+          return `questions/${id}`;
         },
       }),
       createQuestion: builder.mutation({
@@ -46,7 +51,7 @@ export const api = createApi({
 });
 
 export const {
-  useFetchQuestionQuery,
+  useFetchQuestionsQuery,
   useRegisterUserMutation,
   useLoginUserMutation,
   useGetUserQuery,

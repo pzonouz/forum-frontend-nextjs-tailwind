@@ -10,10 +10,7 @@ import { useGetUserQuery } from "../redux_toolkit/consumeAPI";
 import { useEffect } from "react";
 
 const Navbar = () => {
-  const { data: user, isError, isSuccess } = useGetUserQuery();
-  useEffect(() => {
-    console.log(user);
-  }, [isSuccess]);
+  const { data: user, isSuccess } = useGetUserQuery();
 
   return (
     <navbar className="flex flex-row-reverse justify-between text-xl border-b-gray-500 border-b-[1px]">

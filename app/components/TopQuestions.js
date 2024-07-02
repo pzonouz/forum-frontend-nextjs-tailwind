@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { useGetUserQuery } from "../redux_toolkit/consumeAPI";
 
 const TopQuestions = () => {
   return (

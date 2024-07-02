@@ -8,13 +8,38 @@ export const api = createApi({
       "content-type": "application/json",
     },
   }),
+  tagTypes: ["score_question", "score_answer", "question", "answer"],
   endpoints(builder) {
     return {
+      createAnswer: builder.mutation({
+        query: ({ question_id, ...question }) => ({
+          url: `answers/${question_id}`,
+          method: "POST",
+          body: question,
+        }),
+        invalidatesTags: ["answer"],
+      }),
+      fetchAnswersOfQuestion: builder.query({
+        query(
+          question_id,
+          limit = 100,
+          sortBy = "created_at",
+          sortDirection = "DESC",
+        ) {
+          return `answers/${question_id}/?limit=${limit}&sort_by=${sortBy}&sort_direction=${sortDirection}`;
+        },
+        providesTags: ["answer"],
+      }),
+      fetchQuestion: builder.query({
+        query(id) {
+          return `questions/${id}`;
+        },
+      }),
       fetchQuestions: builder.query({
         query(limit = 100, sortBy = "created_at", sortDirection = "DESC") {
-          // return `questions/?limit=${limit}&sort_by=${sortBy}&sort_direction=${sortDirection}`;
-          return `questions/`;
+          return `questions/?limit=${limit}&sort_by=${sortBy}&sort_direction=${sortDirection}`;
         },
+        providesTags: ["question"],
       }),
       fetchQuestion: builder.query({
         query(id) {
@@ -27,6 +52,35 @@ export const api = createApi({
           method: "POST",
           body: question,
         }),
+        invalidatesTags: ["question"],
+      }),
+      createScoreQuestion: builder.mutation({
+        query: ({ id, ...payload }) => ({
+          url: `scores/questions/${id}`,
+          method: "POST",
+          body: payload,
+        }),
+        invalidatesTags: ["score_question"],
+      }),
+      fetchScoreQuestion: builder.query({
+        query(id) {
+          return `scores/questions/${id}`;
+        },
+        providesTags: ["score_question"],
+      }),
+      createScoreAnswer: builder.mutation({
+        query: ({ id, ...payload }) => ({
+          url: `scores/answers/${id}`,
+          method: "POST",
+          body: payload,
+        }),
+        invalidatesTags: ["score_answer"],
+      }),
+      fetchScoreAnswer: builder.query({
+        query(id) {
+          return `scores/answers/${id}`;
+        },
+        providesTags: ["score_answer"],
       }),
       registerUser: builder.mutation({
         query: ({ ...user }) => ({
@@ -42,7 +96,7 @@ export const api = createApi({
           body: user,
         }),
       }),
-      getUser: builder.query({
+      fetchUser: builder.query({
         query() {
           return `users/`;
         },
@@ -55,7 +109,13 @@ export const {
   useFetchQuestionsQuery,
   useRegisterUserMutation,
   useLoginUserMutation,
-  useGetUserQuery,
+  useFetchUserQuery,
   useCreateQuestionMutation,
+  useCreateScoreQuestionMutation,
+  useCreateScoreAnswerMutation,
+  useFetchScoreQuestionQuery,
+  useFetchScoreAnswerQuery,
+  useFetchAnswersOfQuestionQuery,
+  useCreateAnswerMutation,
 } = api;
 export default api;

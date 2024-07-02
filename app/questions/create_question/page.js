@@ -5,7 +5,7 @@ import * as z from "zod";
 import classNames from "classnames";
 import {
   useCreateQuestionMutation,
-  useGetUserQuery,
+  useFetchUserQuery,
 } from "@/app/redux_toolkit/consumeAPI";
 import { useEffect, useLayoutEffect } from "react";
 
@@ -22,7 +22,7 @@ export default function CreateQuestion() {
   const onSubmit = async (data) => {
     createQuestion(data);
   };
-  const { isError: isUserError } = useGetUserQuery();
+  const { isError: isUserError } = useFetchUserQuery();
   useLayoutEffect(() => {
     if (isUserError) {
       window.location.href = "/users/login?callback=/questions/create_question";

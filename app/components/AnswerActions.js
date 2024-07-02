@@ -1,18 +1,19 @@
 "use client";
 import { FaCircleChevronUp, FaCircleChevronDown } from "react-icons/fa6";
 import {
-  useCreateScoreQuestionMutation,
-  useFetchScoreQuestionQuery,
+  useCreateScoreAnswerMutation,
+  useFetchAnswersOfQuestionQuery,
+  useFetchScoreAnswerQuery,
   useFetchUserQuery,
 } from "../redux_toolkit/consumeAPI";
 import React from "react";
 import classNames from "classnames";
 
-const QuestionActions = (props) => {
+const AnswerActions = (props) => {
   const { id } = props;
-  const { data: score, isError: isErrorFetch } = useFetchScoreQuestionQuery(id);
+  const { data: score, isError: isErrorFetch } = useFetchScoreAnswerQuery(id);
   const [createScore, { isError: isErrorCreate }] =
-    useCreateScoreQuestionMutation();
+    useCreateScoreAnswerMutation();
   const { isSuccess: loggedIn } = useFetchUserQuery();
   const upClickHandler = () => {
     if (!loggedIn) {
@@ -57,4 +58,4 @@ const QuestionActions = (props) => {
   );
 };
 
-export default QuestionActions;
+export default AnswerActions;

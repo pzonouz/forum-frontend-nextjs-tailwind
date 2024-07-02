@@ -24,7 +24,11 @@ const Login = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      window.location.href = callBack;
+      if (callBack) {
+        window.location.href = callBack;
+      } else {
+        window.location.href = "/";
+      }
     }
   }, [isSuccess, callBack]);
 

@@ -6,11 +6,10 @@ import { IoIosHelpCircle } from "react-icons/io";
 import Image from "next/image";
 import pic from "../../public/Images/photo.jpg";
 import Link from "next/link";
-import { useGetUserQuery } from "../redux_toolkit/consumeAPI";
-import { useEffect } from "react";
+import { useFetchUserQuery } from "../redux_toolkit/consumeAPI";
 
 const Navbar = () => {
-  const { data: user, isSuccess } = useGetUserQuery();
+  const { data: user, isSuccess } = useFetchUserQuery();
 
   return (
     <navbar className="flex flex-row-reverse justify-between text-xl border-b-gray-500 border-b-[1px]">

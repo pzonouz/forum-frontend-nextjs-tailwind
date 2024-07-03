@@ -11,6 +11,12 @@ export const api = createApi({
   tagTypes: ["score_question", "score_answer", "question", "answer"],
   endpoints(builder) {
     return {
+      viewUpQuestion: builder.query({
+        query(id) {
+          return `questions/${id}/view_up`;
+        },
+        providesTags: ["question"],
+      }),
       createAnswer: builder.mutation({
         query: ({ questionId, ...question }) => ({
           url: `answers/${questionId}`,
@@ -124,6 +130,7 @@ export const api = createApi({
 });
 
 export const {
+  useViewUpQuestionQuery,
   useFetchQuestionsQuery,
   useFetchQuestionQuery,
   useEditQuestionMutation,

@@ -2,6 +2,7 @@ import QuestionActions from "./QuestionActions";
 import CreateAnswer from "./CreateAnswer";
 import Answers from "./Answers";
 import Link from "next/link";
+import ViewUpQuestion from "./ViewUpQuestion";
 
 const QuestionPage = (props) => {
   const { question } = props;
@@ -25,6 +26,7 @@ const QuestionPage = (props) => {
           </Link>
         </div>
       </div>
+      <ViewUpQuestion id={question?.id} />
       <Answers questionId={question?.id} />
       <CreateAnswer questionId={question?.id} />
     </div>

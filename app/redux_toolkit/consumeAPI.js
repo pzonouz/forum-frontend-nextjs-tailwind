@@ -12,8 +12,8 @@ export const api = createApi({
   endpoints(builder) {
     return {
       createAnswer: builder.mutation({
-        query: ({ question_id, ...question }) => ({
-          url: `answers/${question_id}`,
+        query: ({ questionId, ...question }) => ({
+          url: `answers/${questionId}`,
           method: "POST",
           body: question,
         }),
@@ -34,6 +34,7 @@ export const api = createApi({
         query(id) {
           return `questions/${id}`;
         },
+        providesTags: ["question"],
       }),
       fetchQuestions: builder.query({
         query(limit = 100, sortBy = "created_at", sortDirection = "DESC") {
@@ -45,6 +46,7 @@ export const api = createApi({
         query(id) {
           return `questions/${id}`;
         },
+        providesTags: ["question"],
       }),
       createQuestion: builder.mutation({
         query: ({ ...question }) => ({
@@ -54,6 +56,22 @@ export const api = createApi({
         }),
         invalidatesTags: ["question"],
       }),
+      editQuestion: builder.mutation({
+        query: ({ id, ...question }) => ({
+          url: `questions/${id}`,
+          method: "PATCH",
+          body: question,
+        }),
+        invalidatesTags: ["question"],
+      }),
+      deleteQuestion: builder.mutation({
+        query: (id) => ({
+          url: `questions/${id}`,
+          method: "DELETE",
+        }),
+        invalidatesTags: ["question"],
+      }),
+
       createScoreQuestion: builder.mutation({
         query: ({ id, ...payload }) => ({
           url: `scores/questions/${id}`,
@@ -107,10 +125,13 @@ export const api = createApi({
 
 export const {
   useFetchQuestionsQuery,
+  useFetchQuestionQuery,
+  useEditQuestionMutation,
+  useCreateQuestionMutation,
+  useDeleteQuestionMutation,
   useRegisterUserMutation,
   useLoginUserMutation,
   useFetchUserQuery,
-  useCreateQuestionMutation,
   useCreateScoreQuestionMutation,
   useCreateScoreAnswerMutation,
   useFetchScoreQuestionQuery,

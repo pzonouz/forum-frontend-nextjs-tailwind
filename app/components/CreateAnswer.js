@@ -8,27 +8,39 @@ import {
   useFetchUserQuery,
 } from "../redux_toolkit/consumeAPI";
 import Loading from "./Loading";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const CreateAnswer = (props) => {
   const { isSuccess } = useFetchUserQuery();
-  const [createAnswer, { isLoading }] = useCreateAnswerMutation();
-  const { question_id } = props;
+  const router = useRouter();
+  const [createAnswer, { isLoading, isSuccess: isSuccessAnswers }] =
+    useCreateAnswerMutation();
+  const { questionId } = props;
   const schema = z.object({
     description: z.string().min(5, { message: "حداقل ۵ کاراکتر وارد نمایید" }),
   });
   const createAnswerHandler = (data) => {
     createAnswer({
-      question_id,
+      questionId,
       ...data,
     });
   };
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
   });
+
+  useEffect(() => {
+    if (isSuccessAnswers) {
+      router.refresh();
+      reset();
+    }
+  }, [isSuccessAnswers, router, reset]);
   return (
     <>
       {isSuccess && (

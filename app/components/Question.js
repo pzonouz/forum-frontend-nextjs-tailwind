@@ -2,9 +2,9 @@ import Link from "next/link";
 
 const Question = ({
   id,
-  votes,
+  scoreCount,
   views,
-  answers,
+  answerCount,
   title,
   userName = "ناشناس",
   createdAt,
@@ -16,11 +16,11 @@ const Question = ({
     <div className="px-4 py-2 mt-1 border-b-gray-400 border-b-[1px]">
       <div className="flex flex-row items-center ">
         <div className="question_header_item">
-          <p>{votes}</p>
+          <p>{scoreCount}</p>
           <p>رای</p>
         </div>
         <div className="question_header_item">
-          <p>{answers}</p>
+          <p>{answerCount}</p>
           <p>جواب</p>
         </div>
         <div className="question_header_item">

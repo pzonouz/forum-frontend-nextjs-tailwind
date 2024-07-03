@@ -3,7 +3,7 @@ import Link from "next/link";
 const Question = ({
   id,
   scoreCount,
-  views,
+  view,
   answerCount,
   title,
   userName = "ناشناس",
@@ -24,7 +24,7 @@ const Question = ({
           <p>جواب</p>
         </div>
         <div className="question_header_item">
-          <p>{views}</p>
+          <p>{view}</p>
           <p>بازدید</p>
         </div>
       </div>

@@ -3,31 +3,60 @@ import CreateAnswer from "./CreateAnswer";
 import Answers from "./Answers";
 import Link from "next/link";
 import ViewUpQuestion from "./ViewUpQuestion";
+import { FaCheck } from "react-icons/fa";
+import classNames from "classnames";
 
-const QuestionPage = (props) => {
+const QuestionPage = async (props) => {
   const { question } = props;
+  let solved = false;
+  const response = await fetch(
+    `http://localhost/api/v1/answers/?search_field=question_id&search_field_value=${question?.id}`,
+    {
+      cache: "no-store",
+    },
+  );
+  const answers = await response.json();
+
+  answers?.map((ans) => {
+    if (ans?.solved == true) {
+      solved = true;
+    }
+  });
   return (
     <div>
       <div className="p-2 border-b-2 border-gray-400">
-        <div className="flex items-center gap-2">
-          <QuestionActions id={question?.id} />
-          <div>{question?.title}</div>
-        </div>
-        <div className="px-6 py-2">{question?.description}</div>
-        <div className="flex gap-2 w-20 ml-0 mr-auto">
-          <Link href={`${question?.id}/edit`} className="text-xs text-blue-500">
-            ویرایش
-          </Link>
-          <Link
-            href={`${question?.id}/delete`}
-            className="text-xs text-red-500"
-          >
-            حذف
-          </Link>
+        <div>
+          <div className="flex items-center gap-2">
+            <FaCheck
+              className={classNames({
+                "text-green-700": solved,
+                "text-gray-200": !solved,
+              })}
+            />
+            <QuestionActions id={question?.id} />
+            <div>{question?.title}</div>
+          </div>
+          <div className="mr-10">
+            <div className="mr-3">{question?.description}</div>
+            <div className="flex gap-2 w-20 ml-0 mr-auto">
+              <Link
+                href={`${question?.id}/edit`}
+                className="text-xs text-blue-500"
+              >
+                ویرایش
+              </Link>
+              <Link
+                href={`${question?.id}/delete`}
+                className="text-xs text-red-500"
+              >
+                حذف
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
       <ViewUpQuestion id={question?.id} />
-      <Answers questionId={question?.id} />
+      <Answers questionId={question?.id} answers={answers} />
       <CreateAnswer questionId={question?.id} />
     </div>
   );

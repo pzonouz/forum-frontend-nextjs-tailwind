@@ -17,6 +17,13 @@ export const api = createApi({
         },
         providesTags: ["question"],
       }),
+      makeAnswerSolved: builder.mutation({
+        query: (id) => ({
+          url: `answers/${id}/solved`,
+          method: "POST",
+        }),
+        invalidatesTags: ["answer", "question"],
+      }),
       createAnswer: builder.mutation({
         query: ({ questionId, ...question }) => ({
           url: `answers/${questionId}`,
@@ -145,5 +152,6 @@ export const {
   useFetchScoreAnswerQuery,
   useFetchAnswersOfQuestionQuery,
   useCreateAnswerMutation,
+  useMakeAnswerSolvedMutation,
 } = api;
 export default api;

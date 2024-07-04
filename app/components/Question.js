@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import Link from "next/link";
 
 const Question = ({
@@ -9,6 +10,7 @@ const Question = ({
   userName = "ناشناس",
   createdAt,
   userId,
+  solved,
 }) => {
   const date = new Date(createdAt);
   const createdAtPersian = date.toLocaleString("fa-IR");
@@ -19,7 +21,12 @@ const Question = ({
           <p>{scoreCount}</p>
           <p>رای</p>
         </div>
-        <div className="question_header_item">
+        <div
+          className={classNames("question_header_item", {
+            " text-green-700 bg-green-100 border-[1px] border-green-700":
+              solved,
+          })}
+        >
           <p>{answerCount}</p>
           <p>جواب</p>
         </div>

@@ -1,3 +1,5 @@
+@import "react-toastify/dist/ReactToastify.min.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -45,4 +47,7 @@
   .success {
     @apply text-green-700 text-xs -mt-2;
   }
+}
+nextjs-portal {
+  display: none;
 }

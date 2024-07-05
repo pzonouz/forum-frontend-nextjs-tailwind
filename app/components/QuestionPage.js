@@ -38,25 +38,33 @@ const QuestionPage = async (props) => {
           </div>
           <div className="mr-10">
             <div className="mr-3">{question?.description}</div>
-            <div className="flex gap-2 w-20 ml-0 mr-auto">
+            <div className="flex items-center justify-between mt-2">
               <Link
-                href={`${question?.id}/edit`}
-                className="text-xs text-blue-500"
+                href={`/users/${question?.userId}`}
+                className=" text-blue-600"
               >
-                ویرایش
+                {question?.userName}
               </Link>
-              <Link
-                href={`${question?.id}/delete`}
-                className="text-xs text-red-500"
-              >
-                حذف
-              </Link>
+              <div className="flex gap-2 w-20 ml-0 mr-auto">
+                <Link
+                  href={`${question?.id}/edit`}
+                  className="text-xs text-blue-500"
+                >
+                  ویرایش
+                </Link>
+                <Link
+                  href={`${question?.id}/delete`}
+                  className="text-xs text-red-500"
+                >
+                  حذف
+                </Link>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <ViewUpQuestion id={question?.id} />
-      <Answers questionId={question?.id} answers={answers} />
+      <Answers question={question} answers={answers} />
       <CreateAnswer questionId={question?.id} />
     </div>
   );

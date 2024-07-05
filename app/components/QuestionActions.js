@@ -5,13 +5,14 @@ import {
   useFetchScoreQuestionQuery,
   useFetchUserQuery,
 } from "../redux_toolkit/consumeAPI";
-import React from "react";
+import React, { useEffect } from "react";
 import classNames from "classnames";
+import { toast } from "react-toastify";
 
 const QuestionActions = (props) => {
   const { id } = props;
   const { data: score, isError: isErrorFetch } = useFetchScoreQuestionQuery(id);
-  const [createScore, { isError: isErrorCreate }] =
+  const [createScore, { isError: isErrorCreate, error: errorCreate }] =
     useCreateScoreQuestionMutation();
   const { isSuccess: loggedIn } = useFetchUserQuery();
   const upClickHandler = () => {
@@ -30,15 +31,16 @@ const QuestionActions = (props) => {
     const data = { id, operator: "minus" };
     createScore(data);
   };
+  useEffect(() => {
+    if (errorCreate?.data?.includes("Vote", "Before")) {
+      toast.error(" قبلا رای شما ثبت شده است");
+    }
+  }, [isErrorCreate, errorCreate]);
   return (
     <div className="relative">
-      {isErrorCreate && (
-        <p className="error absolute w-48">قبلا رای شما ثبت شده است</p>
-      )}
       <div
         className={classNames(
           "flex flex-col items-center justify-around gap-1",
-          { "mt-2": isErrorCreate },
         )}
       >
         <FaCircleChevronUp

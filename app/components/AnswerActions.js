@@ -11,24 +11,48 @@ import React, { useEffect } from "react";
 import classNames from "classnames";
 import { FaCheck } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import Loading from "./Loading";
+import { toast } from "react-toastify";
 
 const AnswerActions = (props) => {
-  const { answer, questionId } = props;
+  const { answer, question } = props;
   const id = answer?.id;
   const router = useRouter();
-  const { data: score, isError: isErrorFetch } = useFetchScoreAnswerQuery(id);
-  const [createScore, { isError: isErrorCreate }] =
-    useCreateScoreAnswerMutation();
-  const { isSuccess: loggedIn } = useFetchUserQuery();
-  const [makeAnswerSolved, { isSuccess }] = useMakeAnswerSolvedMutation();
+  const {
+    data: score,
+    isError: isErrorFetch,
+    isLoading: scoreLoading,
+  } = useFetchScoreAnswerQuery(id);
+  const [
+    createScore,
+    {
+      isError: isErrorCreate,
+      error: errorCreate,
+      isLoading: createScoreLoading,
+    },
+  ] = useCreateScoreAnswerMutation();
+  const { data: user, isSuccess: loggedIn } = useFetchUserQuery();
+  const [
+    makeAnswerSolved,
+    { isSuccess, isLoading: markSolvedLoading, error: markSolvedError },
+  ] = useMakeAnswerSolvedMutation();
   useEffect(() => {
     if (isSuccess) {
       router.refresh();
     }
   }, [isSuccess, router]);
+  useEffect(() => {
+    if (errorCreate?.data?.includes("Vote", "Before")) {
+      toast.error(" قبلا رای شما ثبت شده است");
+    }
+  }, [isErrorCreate, errorCreate]);
+
+  useEffect(() => {
+    toast.error(markSolvedError?.data);
+  }, [markSolvedError]);
   const upClickHandler = () => {
     if (!loggedIn) {
-      window.location.href = `/users/login?callback=/questions/${questionId}`;
+      window.location.href = `/users/login?callback=/questions/${question?.id}`;
       return;
     }
     const data = { id, operator: "plus" };
@@ -36,7 +60,7 @@ const AnswerActions = (props) => {
   };
   const downClickHandler = () => {
     if (!loggedIn) {
-      window.location.href = `/users/login?callback=/questions/${questionId}`;
+      window.location.href = `/users/login?callback=/questions/${question?.id}`;
       return;
     }
     const data = { id, operator: "minus" };
@@ -44,23 +68,22 @@ const AnswerActions = (props) => {
   };
   return (
     <div className="relative flex items-center">
-      <FaCheck
-        onClick={() => {
-          makeAnswerSolved(id);
-        }}
-        className={classNames("cursor-pointer hover:text-green-700", {
-          "text-green-700": answer?.solved,
-          "text-gray-200": !answer?.solved,
-        })}
-      />
+      {(scoreLoading || createScoreLoading || markSolvedLoading) && <Loading />}
+      {user?.id == question?.userId && (
+        <FaCheck
+          onClick={() => {
+            makeAnswerSolved(id);
+          }}
+          className={classNames("cursor-pointer hover:text-green-700", {
+            "text-green-700": answer?.solved,
+            "text-gray-200": !answer?.solved,
+          })}
+        />
+      )}
       <div>
-        {isErrorCreate && (
-          <p className="error absolute w-48">قبلا رای شما ثبت شده است</p>
-        )}
         <div
           className={classNames(
             "flex flex-col items-center justify-around gap-1",
-            { "mt-2": isErrorCreate },
           )}
         >
           <FaCircleChevronUp

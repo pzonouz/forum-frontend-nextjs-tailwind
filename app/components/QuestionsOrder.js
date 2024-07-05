@@ -2,8 +2,10 @@
 import classNames from "classnames";
 
 export const questionOrderEnum = Object.freeze({
-  newest: "createdAt",
-  month: "",
+  newest: "created_at",
+  hotest: "view_count",
+  noAnswer: "answer_count",
+  notSolved: "solved",
 });
 const QuestionsOrder = ({ order, setOrder }) => {
   return (
@@ -13,37 +15,37 @@ const QuestionsOrder = ({ order, setOrder }) => {
           question_order_active: order == questionOrderEnum.newest,
         })}
         onClick={() => {
-          setOrder("newest");
+          setOrder(questionOrderEnum.newest);
         }}
       >
         تازه ترین
       </p>
       <p
         className={classNames("border-r-2 topQuestionItem", {
-          question_order_active: order == "hotest",
+          question_order_active: order == questionOrderEnum.hotest,
         })}
         onClick={() => {
-          setOrder("hotest");
+          setOrder(questionOrderEnum.hotest);
         }}
       >
         داغ ترین
       </p>
       <p
         className={classNames("border-r-2 topQuestionItem", {
-          question_order_active: order == "no_answer",
+          question_order_active: order == questionOrderEnum.noAnswer,
         })}
         onClick={() => {
-          setOrder("no_answer");
+          setOrder(questionOrderEnum.noAnswer);
         }}
       >
         بدون جواب
       </p>
       <p
         className={classNames("border-r-2 topQuestionItem", {
-          question_order_active: order == "not_solved",
+          question_order_active: order == questionOrderEnum.notSolved,
         })}
         onClick={() => {
-          setOrder("not_solved");
+          setOrder(questionOrderEnum.notSolved);
         }}
       >
         حل نشده

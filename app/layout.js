@@ -2,6 +2,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import ReduxProvider from "./components/ReduxProvider";
+import { ToastContainer } from "react-toastify";
 
 const iranSans = localFont({
   src: [
@@ -54,6 +55,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" dir="rtl">
       <body className={iranSans.className}>
+        <ToastContainer />
         <ReduxProvider>
           <Navbar />
           {children}

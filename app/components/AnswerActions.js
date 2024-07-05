@@ -45,6 +45,9 @@ const AnswerActions = (props) => {
     if (errorCreate?.data?.includes("Vote", "Before")) {
       toast.error(" قبلا رای شما ثبت شده است");
     }
+    if (errorCreate?.data?.includes("Same", "User")) {
+      toast.error("نمی توانید به جواب خود رای دهید");
+    }
   }, [isErrorCreate, errorCreate]);
 
   useEffect(() => {

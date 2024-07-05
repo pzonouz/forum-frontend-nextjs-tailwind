@@ -49,6 +49,12 @@ export const api = createApi({
         },
         providesTags: ["question"],
       }),
+      fetchAnswer: builder.query({
+        query(id) {
+          return `answers/${id}`;
+        },
+        providesTags: ["answer"],
+      }),
       fetchQuestions: builder.query({
         query(args) {
           return `questions/?limit=${args?.limit ? args?.limit : 100}&order_by=${args?.orderBy ? args?.orderBy : "created_at"}&order_direction=${args?.orderDirection ? args?.orderDirection : ""}&search_field=${args?.searchField ? args?.searchField : ""}&search_field_value=${args?.searchFieldValue ? args?.searchFieldValue : ""}`;
@@ -84,7 +90,21 @@ export const api = createApi({
         }),
         invalidatesTags: ["question"],
       }),
-
+      editAnswer: builder.mutation({
+        query: ({ id, ...answer }) => ({
+          url: `answers/${id}`,
+          method: "PATCH",
+          body: answer,
+        }),
+        invalidatesTags: ["answer", "question"],
+      }),
+      deleteAnswer: builder.mutation({
+        query: (id) => ({
+          url: `answers/${id}`,
+          method: "DELETE",
+        }),
+        invalidatesTags: ["answer", "question"],
+      }),
       createScoreQuestion: builder.mutation({
         query: ({ id, ...payload }) => ({
           url: `scores/questions/${id}`,
@@ -140,6 +160,7 @@ export const {
   useViewUpQuestionQuery,
   useFetchQuestionsQuery,
   useFetchQuestionQuery,
+  useFetchAnswerQuery,
   useEditQuestionMutation,
   useCreateQuestionMutation,
   useDeleteQuestionMutation,
@@ -153,5 +174,7 @@ export const {
   useFetchAnswersOfQuestionQuery,
   useCreateAnswerMutation,
   useMakeAnswerSolvedMutation,
+  useEditAnswerMutation,
+  useDeleteAnswerMutation,
 } = api;
 export default api;

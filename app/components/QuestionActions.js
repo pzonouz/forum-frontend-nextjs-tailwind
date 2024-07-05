@@ -35,6 +35,9 @@ const QuestionActions = (props) => {
     if (errorCreate?.data?.includes("Vote", "Before")) {
       toast.error(" قبلا رای شما ثبت شده است");
     }
+    if (errorCreate?.data?.includes("Same", "User")) {
+      toast.error("نمی توانید به سوال خود رای دهید");
+    }
   }, [isErrorCreate, errorCreate]);
   return (
     <div className="relative">

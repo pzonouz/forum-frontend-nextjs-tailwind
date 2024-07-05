@@ -53,12 +53,14 @@ const CreateAnswer = (props) => {
         <textarea
           className={classNames(
             "border-[1px] outline-none p-2 rounded-md w-full border-gray-400",
-            { "border-red-600": errors?.answer?.message },
+            { "border-red-600": errors?.description?.message },
           )}
           rows={10}
           {...register("description")}
         ></textarea>
-        {errors?.answer && <p className="error">{errors?.answer?.message}</p>}
+        {errors?.description && (
+          <p className="error">{errors?.description?.message}</p>
+        )}
         <button className="button button_primary">ثبت</button>
       </form>
     </div>

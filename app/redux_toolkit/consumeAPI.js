@@ -67,6 +67,12 @@ export const api = createApi({
         },
         providesTags: ["question"],
       }),
+      fetchQuestionOfUser: builder.query({
+        query() {
+          return `questions/current_user`;
+        },
+        providesTags: ["question"],
+      }),
       createQuestion: builder.mutation({
         query: ({ ...question }) => ({
           url: `questions/`,
@@ -147,6 +153,11 @@ export const api = createApi({
           body: user,
         }),
       }),
+      logoutUser: builder.mutation({
+        query: () => ({
+          url: `users/logout`,
+        }),
+      }),
       fetchUser: builder.query({
         query() {
           return `users/`;
@@ -160,12 +171,14 @@ export const {
   useViewUpQuestionQuery,
   useFetchQuestionsQuery,
   useFetchQuestionQuery,
+  useFetchQuestionOfUserQuery,
   useFetchAnswerQuery,
   useEditQuestionMutation,
   useCreateQuestionMutation,
   useDeleteQuestionMutation,
   useRegisterUserMutation,
   useLoginUserMutation,
+  useLogoutUserMutation,
   useFetchUserQuery,
   useCreateScoreQuestionMutation,
   useCreateScoreAnswerMutation,

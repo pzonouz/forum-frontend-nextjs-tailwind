@@ -8,6 +8,7 @@ import classNames from "classnames";
 import { useLoginUserMutation } from "@/app/redux_toolkit/consumeAPI";
 import Loading from "@/app/components/Loading";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 const schema = z.object({
   email: z
@@ -71,8 +72,18 @@ const Login = () => {
         >
           ورود
         </button>
-        {isError && <p className="error">{JSON.stringify(error?.data)}</p>}
+        <div className="flex gap-1 text-sm">
+          <div>از </div>
+          <Link
+            className="text-blue-500"
+            href={`/users/register?callback=${callBack}`}
+          >
+            اینجا
+          </Link>
+          <div>ثبت نام کنید</div>
+        </div>
         {isSuccess && <p className="success">با موفقیت انجام شد</p>}
+        {isError && <p className="error">{JSON.stringify(error?.data)}</p>}
       </form>
     </div>
   );

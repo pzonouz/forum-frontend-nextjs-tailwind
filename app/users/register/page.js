@@ -5,9 +5,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useRegisterUserMutation } from "@/app/redux_toolkit/consumeAPI";
 import Loading from "@/app/components/Loading";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Register = () => {
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState(false);
+  const [nickName, setNickName] = useState("");
+  const [nickNameError, setNickNameError] = useState(false);
   const schema = z
     .object({
       email: z
@@ -47,6 +51,33 @@ const Register = () => {
       window.location.href = "/users/login";
     }
   }, [isSuccess]);
+
+  useEffect(() => {
+    fetch("http://localhost/api/v1/users/is_unique_email", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ email: email }),
+    }).then((res) => {
+      if (!res.ok) {
+        setEmailError(true);
+      } else {
+        setEmailError(false);
+      }
+    });
+  }, [email]);
+  useEffect(() => {
+    fetch("http://localhost/api/v1/users/is_unique_nickname", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ nickName: nickName }),
+    }).then((res) => {
+      if (!res.ok) {
+        setNickNameError(true);
+      } else {
+        setNickNameError(false);
+      }
+    });
+  }, [nickName]);
   const submitHandler = (data) => {
     data.password = data.password1;
     registerUser(data);
@@ -63,11 +94,16 @@ const Register = () => {
           {...register("email")}
           placeholder="ایمیل"
           type="text"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
           className={classNames("input w-full", {
-            "error-border": errors?.email,
+            "error-border": errors?.email || emailError,
           })}
         />
         <p className="error ">{errors?.email?.message}</p>
+        {emailError && <p className="error "> قبلا ثبت شده است</p>}
         <input
           {...register("password1")}
           placeholder="پسورد"
@@ -89,13 +125,18 @@ const Register = () => {
         <p className="error ">{errors?.password2?.message}</p>
         <input
           placeholder="نام"
+          value={nickName}
           {...register("nickName")}
           type="text"
+          onChange={(e) => {
+            setNickName(e.target.value);
+          }}
           className={classNames("input w-full", {
-            "error-border": errors?.nickName?.message,
+            "error-border": errors?.nickName?.message || nickNameError,
           })}
         />
         <p className="error ">{errors?.nickName?.message}</p>
+        {nickNameError && <p className="error "> قبلا ثبت شده است</p>}
 
         <input
           placeholder="تلفن همراه"
@@ -107,7 +148,12 @@ const Register = () => {
         />
         <p className="error">{errors?.phoneNumber?.message}</p>
         <p className="error">{errors?.confirmPassword?.message}</p>
-        <button className="button button_primary">ثبت</button>
+        <button
+          className="button button_primary"
+          disabled={emailError || nickNameError}
+        >
+          ثبت
+        </button>
         {isError && (
           <p className="error">{JSON.stringify(registeredData?.data)}</p>
         )}

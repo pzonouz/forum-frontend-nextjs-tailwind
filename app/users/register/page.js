@@ -53,7 +53,7 @@ const Register = () => {
   }, [isSuccess]);
 
   useEffect(() => {
-    fetch("http://localhost/api/v1/users/is_unique_email", {
+    fetch(`${process.env.BACKEND_URL}users/is_unique_email`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ email: email }),
@@ -66,7 +66,7 @@ const Register = () => {
     });
   }, [email]);
   useEffect(() => {
-    fetch("http://localhost/api/v1/users/is_unique_nickname", {
+    fetch(`${process.env.BACKEND_URL}users/is_unique_nickname`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ nickName: nickName }),

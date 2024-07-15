@@ -59,7 +59,7 @@ const Login = () => {
         <p className="error text-start">{errors?.email?.message}</p>
         <input
           {...register("password")}
-          type="text"
+          type="password"
           className={classNames("input w-full", {
             "error-border": errors?.password?.message,
           })}
@@ -72,15 +72,22 @@ const Login = () => {
         >
           ورود
         </button>
-        <div className="flex gap-1 text-sm">
-          <div>از </div>
-          <Link
-            className="text-blue-500"
-            href={`/users/register?callback=${callBack}`}
-          >
-            اینجا
-          </Link>
-          <div>ثبت نام کنید</div>
+        <div className="flex items-center justify-between">
+          <div className="flex gap-1 text-sm">
+            <div>از </div>
+            <Link
+              className="text-blue-500"
+              href={`/users/register?callback=${callBack}`}
+            >
+              اینجا
+            </Link>
+            <div>ثبت نام کنید</div>
+          </div>
+          <div className="flex gap-1 text-sm">
+            <Link className="text-blue-500" href={`/users/forget_password`}>
+              فراموشی پسورد
+            </Link>
+          </div>
         </div>
         {isSuccess && <p className="success">با موفقیت انجام شد</p>}
         {isError && <p className="error">{JSON.stringify(error?.data)}</p>}

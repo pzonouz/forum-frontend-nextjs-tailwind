@@ -2,13 +2,13 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost/api/v1/",
+    baseUrl: process.env.BACKEND_URL,
     credentials: "include",
     headers: {
       "content-type": "application/json",
     },
   }),
-  tagTypes: ["score_question", "score_answer", "question", "answer"],
+  tagTypes: ["score_question", "score_answer", "question", "answer", "user"],
   endpoints(builder) {
     return {
       viewUpQuestion: builder.query({
@@ -31,6 +31,12 @@ export const api = createApi({
           body: question,
         }),
         invalidatesTags: ["answer", "question"],
+      }),
+      fetchAnswersOfUser: builder.query({
+        query() {
+          return `answers/current_user`;
+        },
+        providesTags: ["question", "answer"],
       }),
       fetchAnswersOfQuestion: builder.query({
         query(
@@ -67,7 +73,7 @@ export const api = createApi({
         },
         providesTags: ["question"],
       }),
-      fetchQuestionOfUser: builder.query({
+      fetchQuestionsOfUser: builder.query({
         query() {
           return `questions/current_user`;
         },
@@ -139,6 +145,21 @@ export const api = createApi({
         },
         providesTags: ["score_answer"],
       }),
+      forgetPassword: builder.mutation({
+        query: (email) => ({
+          url: `users/forget_password/${email}`,
+          method: "GET",
+        }),
+        invalidatesTags: [],
+      }),
+      forgetPasswordCallback: builder.mutation({
+        query: ({ password, token }) => ({
+          url: `users/forget_password_callback/${token}/`,
+          method: "POST",
+          body: { password: password },
+        }),
+        invalidatesTags: [],
+      }),
       registerUser: builder.mutation({
         query: ({ ...user }) => ({
           url: `users/register`,
@@ -153,6 +174,14 @@ export const api = createApi({
           body: user,
         }),
       }),
+      editUser: builder.mutation({
+        query: ({ ...user }) => ({
+          url: `users/`,
+          method: "PATCH",
+          body: user,
+        }),
+        invalidatesTags: ["user"],
+      }),
       logoutUser: builder.mutation({
         query: () => ({
           url: `users/logout`,
@@ -162,6 +191,7 @@ export const api = createApi({
         query() {
           return `users/`;
         },
+        providesTags: ["user"],
       }),
     };
   },
@@ -171,7 +201,7 @@ export const {
   useViewUpQuestionQuery,
   useFetchQuestionsQuery,
   useFetchQuestionQuery,
-  useFetchQuestionOfUserQuery,
+  useFetchQuestionsOfUserQuery,
   useFetchAnswerQuery,
   useEditQuestionMutation,
   useCreateQuestionMutation,
@@ -180,14 +210,18 @@ export const {
   useLoginUserMutation,
   useLogoutUserMutation,
   useFetchUserQuery,
+  useEditUserMutation,
   useCreateScoreQuestionMutation,
   useCreateScoreAnswerMutation,
   useFetchScoreQuestionQuery,
   useFetchScoreAnswerQuery,
   useFetchAnswersOfQuestionQuery,
+  useFetchAnswersOfUserQuery,
   useCreateAnswerMutation,
   useMakeAnswerSolvedMutation,
   useEditAnswerMutation,
   useDeleteAnswerMutation,
+  useForgetPasswordMutation,
+  useForgetPasswordCallbackMutation,
 } = api;
 export default api;

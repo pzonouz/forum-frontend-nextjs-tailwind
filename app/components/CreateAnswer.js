@@ -49,7 +49,6 @@ const CreateAnswer = (props) => {
         onSubmit={handleSubmit(createAnswerHandler)}
         className="w-full p-4 flex flex-col gap-2 relative"
       >
-        {isLoading && <Loading />}
         <textarea
           className={classNames(
             "border-[1px] outline-none p-2 rounded-md w-full border-gray-400",
@@ -59,9 +58,12 @@ const CreateAnswer = (props) => {
           {...register("description")}
         ></textarea>
         {errors?.description && (
-          <p className="error">{errors?.description?.message}</p>
+          <p className="text-xs text-error">{errors?.description?.message}</p>
         )}
-        <button className="button button_primary">ثبت</button>
+        <button className="btn btn-primary flex">
+          <div>ثبت</div>
+          {isLoading && <p className="loading loading-spinner"></p>}
+        </button>
       </form>
     </div>
   );

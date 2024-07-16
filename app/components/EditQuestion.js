@@ -50,19 +50,25 @@ const EditQuestion = (props) => {
       <input
         {...register("title")}
         type="text"
-        className={classNames("input", { "error-border": errors?.title })}
+        className={classNames("input input-bordered", {
+          "input-error": errors?.title,
+        })}
         placeholder="عنوان سوال"
       />
-      <p className="error">{errors.title?.message}</p>
+      <p className="text-xs text-error">{errors.title?.message}</p>
       <textarea
         {...register("description")}
-        className={classNames("input", { "error-border": errors?.description })}
+        className={classNames("input input-bordered", {
+          "input-error": errors?.description,
+        })}
         rows={10}
         placeholder="توضیحات سوال"
       />
-      <p className="error">{errors.description?.message}</p>
-      <input className="button button_primary" type="submit" value="ثبت" />
-      {isError && <p className="error">{JSON.stringify(error?.data)}</p>}
+      <p className="text-xs text-error">{errors.description?.message}</p>
+      <input className="btn btn-primary" type="submit" value="ثبت" />
+      {isError && (
+        <p className="text-xs text-error">{JSON.stringify(error?.data)}</p>
+      )}
       {isSuccess && <p className="success">{"با موقعیت ایجاد شد"}</p>}
     </form>
   );

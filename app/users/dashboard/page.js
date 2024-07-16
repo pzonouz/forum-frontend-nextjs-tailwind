@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 
 export default function DashboardPage() {
   const { data: user, isSuccess } = useFetchUserQuery();
-  const [editUser, { isError, error, isSuccess: editUserSuccess }] =
+  const [editUser, { isError, error, isLoading, isSuccess: editUserSuccess }] =
     useEditUserMutation();
   const [nickName, setNickName] = useState("");
   const [address, setAddress] = useState("");
@@ -52,8 +52,8 @@ export default function DashboardPage() {
       <div>
         <input
           type="text"
-          className={classNames("input w-full", {
-            "error-border": nickNameError || nickName?.length == 0,
+          className={classNames("input input-bordered w-full", {
+            "input-error": nickNameError || nickName?.length == 0,
           })}
           placeholder="نام"
           value={nickName}
@@ -61,33 +61,27 @@ export default function DashboardPage() {
             setNickName(e?.target?.value);
           }}
         />
-        {nickNameError && <p className="error mt-0 "> قبلا ثبت شده است</p>}
+        {nickNameError && (
+          <p className="text-xs text-error mt-1"> قبلا ثبت شده است</p>
+        )}
         {nickName?.length == 0 && (
-          <p className="error mt-0 ">نام را وارد کنید</p>
+          <p className="text-xs text-error mt-1">نام را وارد کنید</p>
         )}
       </div>
-      {/* <input */}
-      {/*   type="text" */}
-      {/*   {...register("phoneNumber")} */}
-      {/*   className="input" */}
-      {/*   placeholder="تلفن همراه" */}
-      {/* /> */}
-      {/* {errors?.phoneNubmer && ( */}
-      {/*   <p className="error mt-0 ">{errors?.phoneNubmer?.message}</p> */}
-      {/* )} */}
       <textarea
         value={address}
         onChange={(e) => {
           setAddress(e?.target?.value);
         }}
-        className="input"
+        className="input input-bordered"
         rows={4}
       ></textarea>
       <button
-        className="button button_primary"
+        className="btn btn-primary flex"
         disabled={nickNameError || nickName?.length == 0}
       >
-        تغییر
+        <div>تغییر</div>
+        {isLoading && <p className="loading loading-spinner"></p>}
       </button>
     </form>
   );

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useFetchQuestionsQuery } from "./redux_toolkit/consumeAPI";
 import { questionOrderEnum } from "./components/QuestionsOrder";
 import ErrorComponent from "./components/ErrorComponent";
+import Files from "./components/Files";
 
 export default function Home() {
   const [order, setOrder] = useState(questionOrderEnum.newest);
@@ -53,19 +54,22 @@ export default function Home() {
   }, [order]);
 
   return (
-    <div>
-      <TopQuestions />
-      <QuestionsOrder order={order} setOrder={setOrderHandler} />
-      <div className="mt-4">
-        {isLoading ? (
-          <Loading />
-        ) : error ? (
-          <ErrorComponent error="قطع ارتباط با سرور" />
-        ) : (
-          questions?.map((q) => {
-            return <Question key={q.id} {...q} />;
-          })
-        )}
+    <div className="flex flex-row-reverse gap-1">
+      <Files className="w-1/2 hidden md:block " />
+      <div className="w-full md:w-1/2">
+        <TopQuestions />
+        <QuestionsOrder order={order} setOrder={setOrderHandler} />
+        <div className="mt-4">
+          {isLoading ? (
+            <Loading />
+          ) : error ? (
+            <ErrorComponent error="قطع ارتباط با سرور" />
+          ) : (
+            questions?.map((q) => {
+              return <Question key={q.id} {...q} />;
+            })
+          )}
+        </div>
       </div>
     </div>
   );

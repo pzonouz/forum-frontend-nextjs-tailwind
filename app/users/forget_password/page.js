@@ -17,7 +17,7 @@ const ForgetPassordPage = () => {
     setValue,
     formState: { errors },
   } = useForm({ resolver: zodResolver(schema) });
-  const [forgetPassword, { isError, error, isSuccess }] =
+  const [forgetPassword, { isError, error, isSuccess, isLoading }] =
     useForgetPasswordMutation();
   const sumbitHandler = (data) => {
     forgetPassword(data.email);
@@ -43,12 +43,19 @@ const ForgetPassordPage = () => {
       <h1 className=" text-center text-xl font-bold mb-6">بازیابی پسورد</h1>
       <input
         {...register("email")}
-        className={classNames("input", { "error-border": errors?.email })}
+        className={classNames("input input-bordered", {
+          "input-error": errors?.email,
+        })}
         type="text"
         placeholder="ایمیل"
       />
-      {errors?.email && <p className="error">{errors?.email?.message}</p>}
-      <button className="button button_primary">ارسال ایمیل</button>
+      {errors?.email && (
+        <p className="text-error text-xs">{errors?.email?.message}</p>
+      )}
+      <button className="btn btn-primary flex">
+        <div>ارسال ایمیل</div>
+        {isLoading && <p className="loading loading-spinner"></p>}
+      </button>
     </form>
   );
 };

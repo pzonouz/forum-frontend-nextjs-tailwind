@@ -51,7 +51,9 @@ const QuestionActions = (props) => {
           onClick={upClickHandler}
         />
         <div>
-          <p className="text-black">{isErrorFetch ? "error" : score?.score}</p>
+          <p className="text-black">
+            {isErrorFetch ? "text-xs text-error" : score?.score}
+          </p>
         </div>
         <FaCircleChevronDown
           className="text-xl cursor-pointer text-gray-500"

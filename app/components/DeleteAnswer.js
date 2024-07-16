@@ -29,17 +29,14 @@ const DeleteAnswer = (props) => {
       {isLoading && <Loading />}
       <div className=" w-1/2 h-1/4 my-auto mx-auto flex items-center justify-between">
         <div
-          className="button button_error w-20"
+          className="btn btn-error w-20"
           onClick={() => {
             deleteAnswer(id);
           }}
         >
           حذف
         </div>
-        <div
-          className="button button_natural w-20"
-          onClick={() => router.back()}
-        >
+        <div className="btn btn-natural w-20" onClick={() => router.back()}>
           لغو
         </div>
       </div>

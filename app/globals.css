@@ -3,9 +3,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-:root {
-  --primary_color: #334532;
-}
 
 @layer components {
   .centered {
@@ -13,24 +10,6 @@
   }
   .navbar_bg_hover {
     @apply hover:bg-gray-600 hover:text-gray-100;
-  }
-  .button {
-    @apply rounded-md appearance-none font-medium px-2 py-2 cursor-pointer text-center;
-  }
-  .button:disabled {
-    @apply bg-gray-500 hover:bg-gray-500 shadow-none active:translate-y-0;
-  }
-  .button_primary {
-    @apply bg-blue-500 hover:bg-blue-600 -translate-y-[1px] shadow-lg text-white active:shadow-none active:translate-y-[1px];
-  }
-  .button_success {
-    @apply bg-green-500 hover:bg-green-600 -translate-y-[1px] shadow-lg text-white active:shadow-none active:translate-y-[1px];
-  }
-  .button_error {
-    @apply bg-red-500 hover:bg-red-600 -translate-y-[1px] shadow-lg text-white active:shadow-none active:translate-y-[1px];
-  }
-  .button_natural {
-    @apply bg-gray-500 hover:bg-gray-600 -translate-y-[1px] shadow-lg text-white active:shadow-none active:translate-y-[1px];
   }
   .topQuestionItem {
     @apply p-2 cursor-pointer hover:bg-blue-100;
@@ -40,18 +19,6 @@
   }
   .question_order_active {
     @apply bg-blue-100;
-  }
-  .input {
-    @apply border-2 rounded-md appearance-none outline-none border-r-gray-400 text-right p-1;
-  }
-  .error {
-    @apply text-red-600 text-xs -mt-2;
-  }
-  .error-border {
-    @apply border-2 border-red-600;
-  }
-  .success {
-    @apply text-green-700 text-xs -mt-2;
   }
 }
 nextjs-portal {

@@ -20,7 +20,7 @@ const LogoutPage = () => {
           onClick={() => {
             logout();
           }}
-          className="button button_error"
+          className="btn btn-error"
         >
           بله
         </div>
@@ -28,7 +28,7 @@ const LogoutPage = () => {
           onClick={() => {
             router.back();
           }}
-          className="button button_primary"
+          className="btn btn-primary"
         >
           خیر
         </div>

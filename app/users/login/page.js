@@ -43,7 +43,6 @@ const Login = () => {
   } = useForm({ resolver: zodResolver(schema) });
   return (
     <div className=" w-72 mx-auto mt-12">
-      {isLoading ? <Loading /> : null}
       <h1 className=" text-xl font-bold centered">ورود</h1>
       <form
         onSubmit={handleSubmit(submitHandler)}
@@ -52,25 +51,30 @@ const Login = () => {
         <input
           {...register("email")}
           type="text"
-          className={classNames("input w-full", {
-            "error-border": errors?.email?.message,
+          className={classNames("input input-bordered w-full", {
+            "input-error": errors?.email?.message,
           })}
         />
-        <p className="error text-start">{errors?.email?.message}</p>
+        <p className="text-xs text-error text-start">
+          {errors?.email?.message}
+        </p>
         <input
           {...register("password")}
           type="password"
-          className={classNames("input w-full", {
-            "error-border": errors?.password?.message,
+          className={classNames("input input-bordered w-full", {
+            "input-error": errors?.password?.message,
           })}
         />
 
-        <p className="error text-start">{errors?.password?.message}</p>
+        <p className="text-xs text-error text-start">
+          {errors?.password?.message}
+        </p>
         <button
-          className="button button_primary w-full text-white"
+          className="btn btn-primary w-full text-white flex"
           type="submit"
         >
-          ورود
+          <p>ورود</p>
+          {isLoading && <p className="loading loading-spinner"></p>}
         </button>
         <div className="flex items-center justify-between">
           <div className="flex gap-1 text-sm">
@@ -89,8 +93,14 @@ const Login = () => {
             </Link>
           </div>
         </div>
-        {isSuccess && <p className="success">با موفقیت انجام شد</p>}
-        {isError && <p className="error">{JSON.stringify(error?.data)}</p>}
+        {/* {isSuccess && <p className="success">با موفقیت انجام شد</p>} */}
+        {isError && (
+          <p className="text-xs text-error">
+            {error?.data.includes("Login", "Password", "match")
+              ? "نام کاربری و پسورد درست نیست"
+              : null}
+          </p>
+        )}
       </form>
     </div>
   );

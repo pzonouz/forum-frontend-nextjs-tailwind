@@ -95,7 +95,7 @@ const AnswerActions = (props) => {
           />
           <div>
             <p className="text-black">
-              {isErrorFetch ? "error" : score?.score}
+              {isErrorFetch ? "text-xs text-error" : score?.score}
             </p>
           </div>
           <FaCircleChevronDown

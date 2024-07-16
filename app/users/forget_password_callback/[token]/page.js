@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 const ForgetPasswordCallback = ({ params }) => {
-  const [forgetPasswordCallback, { isError, error, isSuccess }] =
+  const [forgetPasswordCallback, { isError, error, isSuccess, isLoading }] =
     useForgetPasswordCallbackMutation();
   const schema = z
     .object({
@@ -51,22 +51,29 @@ const ForgetPasswordCallback = ({ params }) => {
       className="flex flex-col gap-2 w-5/6 mx-auto mt-12"
     >
       <input
-        className={classNames("input", { "error-border": errors?.password1 })}
+        className={classNames("input input-bordered", {
+          "input-error": errors?.password1,
+        })}
         type="password"
         {...register("password1")}
       />
       {errors?.password1 && (
-        <p className="error">{errors?.password1?.message}</p>
+        <p className="text-xs text-error">{errors?.password1?.message}</p>
       )}
       <input
-        className={classNames("input", { "error-border": errors?.password2 })}
+        className={classNames("input input-bordered", {
+          "input-error": errors?.password2,
+        })}
         type="password"
         {...register("password2")}
       />
       {errors?.password2 && (
-        <p className="error">{errors?.password2?.message}</p>
+        <p className="text-xs text-error">{errors?.password2?.message}</p>
       )}
-      <button className="button button_primary">ثبت</button>
+      <button className="btn btn-primary flex">
+        <div>ثبت</div>
+        {isLoading && <p className="loading loading-spinner"></p>}
+      </button>
     </form>
   );
 };

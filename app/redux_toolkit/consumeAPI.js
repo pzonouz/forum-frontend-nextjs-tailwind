@@ -193,12 +193,10 @@ export const api = createApi({
         },
         providesTags: ["user"],
       }),
-      UploadFile: builder.mutation({
-        query: (data) => ({
-          url: `files/upload`,
-          method: "POST",
-          body: data,
-          headers: { "Content-Type": "multipart/form-data" },
+      DeleteFile: builder.mutation({
+        query: (id) => ({
+          url: `files/${id}`,
+          method: "DELETE",
         }),
       }),
     };
@@ -231,6 +229,6 @@ export const {
   useDeleteAnswerMutation,
   useForgetPasswordMutation,
   useForgetPasswordCallbackMutation,
-  useUploadFileMutation,
+  useDeleteFileMutation,
 } = api;
 export default api;

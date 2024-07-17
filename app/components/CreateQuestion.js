@@ -9,7 +9,7 @@ import {
   useFetchQuestionsQuery,
   useFetchUserQuery,
 } from "@/app/redux_toolkit/consumeAPI";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import FileUpload from "./FileUpload";
 
 const schema = z.object({
@@ -22,7 +22,9 @@ const schema = z.object({
 const CreateQuestion = () => {
   const [createQuestion, { error, isError, isSuccess }] =
     useCreateQuestionMutation();
+  const [files, setFiles] = useState([]);
   const onSubmit = async (data) => {
+    data.files = files;
     createQuestion(data);
   };
   const { isError: isUserError } = useFetchUserQuery();
@@ -45,7 +47,7 @@ const CreateQuestion = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col px-4 py-2 gap-2"
+      className="flex flex-col px-4 py-2 gap-2 max-w-lg mx-auto mt-6"
     >
       <input
         {...register("title")}
@@ -65,7 +67,7 @@ const CreateQuestion = () => {
         placeholder="توضیحات سوال"
       />
       <p className="text-xs text-error">{errors.description?.message}</p>
-      <FileUpload />
+      <FileUpload filesSetter={setFiles} />
       <input className="btn btn-primary" type="submit" value="ثبت" />
       {isError && (
         <p className="text-xs text-error">{JSON.stringify(error?.data)}</p>

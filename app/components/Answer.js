@@ -2,6 +2,7 @@ import React from "react";
 import AnswerActions from "./AnswerActions";
 import classNames from "classnames";
 import Link from "next/link";
+import FilesView from "./FilesView";
 
 const Answer = (props) => {
   const { question, answer } = props;
@@ -16,6 +17,11 @@ const Answer = (props) => {
           <AnswerActions question={question} answer={answer} />
           <div>{answer?.description}</div>
         </div>
+        <FilesView
+          classes={" px-10 mt-2"}
+          searchField={"answer_id"}
+          searchFieldValue={answer?.id}
+        />
         <div className="flex items-center justify-between px-6 mt-2">
           <Link href={`/users/${question?.userId}`} className=" text-blue-600">
             {answer?.userName}

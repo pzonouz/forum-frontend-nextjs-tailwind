@@ -8,20 +8,30 @@ import {
   useCreateAnswerMutation,
   useFetchUserQuery,
 } from "../redux_toolkit/consumeAPI";
-import Loading from "./Loading";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import FileUpload from "./FileUpload";
+import { createSelector } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
+import { setFiles } from "../redux_toolkit/filesSlice";
 
 const CreateAnswer = (props) => {
   const { isSuccess } = useFetchUserQuery();
   const router = useRouter();
   const [createAnswer, { isLoading, isSuccess: isSuccessAnswers }] =
     useCreateAnswerMutation();
+  const dispatch = useDispatch(0);
   const { questionId } = props;
   const schema = z.object({
     description: z.string().min(5, { message: "حداقل ۵ کاراکتر وارد نمایید" }),
   });
+  const filesSelector = createSelector(
+    (state) => state.filesReducer,
+    (state) => state.items,
+  );
+  const files = useSelector(filesSelector);
   const createAnswerHandler = (data) => {
+    data.files = files;
     createAnswer({
       questionId,
       ...data,
@@ -38,8 +48,9 @@ const CreateAnswer = (props) => {
 
   useEffect(() => {
     if (isSuccessAnswers) {
-      router.refresh();
+      dispatch(setFiles([]));
       reset();
+      router.refresh();
     }
   }, [isSuccessAnswers, router, reset]);
   return (
@@ -60,6 +71,7 @@ const CreateAnswer = (props) => {
         {errors?.description && (
           <p className="text-xs text-error">{errors?.description?.message}</p>
         )}
+        <FileUpload />
         <button className="btn btn-primary flex">
           <div>ثبت</div>
           {isLoading && <p className="loading loading-spinner"></p>}

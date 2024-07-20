@@ -2,7 +2,7 @@ import QuestionPage from "@/app/components/QuestionPage";
 
 const Page = async ({ params: { id } }) => {
   const resQuestion = await fetch(
-    `${process.env.BACKEND_URL}/questions/${id}`,
+    `${process.env.BACKEND_URL}/questions/${id}/`,
     {
       cache: "no-store",
     },

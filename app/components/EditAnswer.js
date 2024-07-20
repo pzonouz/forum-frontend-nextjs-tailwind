@@ -10,6 +10,7 @@ import {
 } from "@/app/redux_toolkit/consumeAPI";
 import { useEffect } from "react";
 import ErrorComponent from "./ErrorComponent";
+import FileUploadEdit from "./FileUploadEdit";
 
 const schema = z.object({
   description: z.string().min(5, { message: "حداقل ۵ کاراکتر را وارد کنید" }),
@@ -26,7 +27,7 @@ const EditAnswer = (props) => {
     if (isSuccess) {
       window.location.href = `/questions/${answer?.questionId}`;
     }
-  }, [isSuccess]);
+  }, [answer?.questionId, isSuccess]);
 
   const {
     handleSubmit,
@@ -49,12 +50,12 @@ const EditAnswer = (props) => {
         rows={10}
         placeholder="توضیحات سوال"
       />
+      <FileUploadEdit type={"answer"} id={answer?.id} />
       <p className="text-xs text-error">{errors.description?.message}</p>
       <input className="btn btn-primary" type="submit" value="ثبت" />
       {isError && (
         <p className="text-xs text-error">{JSON.stringify(error?.data)}</p>
       )}
-      {isSuccess && <p className="success">{"با موقعیت ایجاد شد"}</p>}
     </form>
   );
 };

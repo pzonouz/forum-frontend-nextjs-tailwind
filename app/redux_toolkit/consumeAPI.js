@@ -8,7 +8,14 @@ export const api = createApi({
       "content-type": "application/json",
     },
   }),
-  tagTypes: ["score_question", "score_answer", "question", "answer", "user"],
+  tagTypes: [
+    "score_question",
+    "score_answer",
+    "question",
+    "answer",
+    "user",
+    "file",
+  ],
   endpoints(builder) {
     return {
       viewUpQuestion: builder.query({
@@ -34,7 +41,7 @@ export const api = createApi({
       }),
       fetchAnswersOfUser: builder.query({
         query() {
-          return `answers/current_user`;
+          return `answers/current_user/`;
         },
         providesTags: ["question", "answer"],
       }),
@@ -49,15 +56,9 @@ export const api = createApi({
         },
         providesTags: ["answer"],
       }),
-      fetchQuestion: builder.query({
-        query(id) {
-          return `questions/${id}`;
-        },
-        providesTags: ["question"],
-      }),
       fetchAnswer: builder.query({
         query(id) {
-          return `answers/${id}`;
+          return `answers/${id}/`;
         },
         providesTags: ["answer"],
       }),
@@ -69,13 +70,13 @@ export const api = createApi({
       }),
       fetchQuestion: builder.query({
         query(id) {
-          return `questions/${id}`;
+          return `questions/${id}/`;
         },
         providesTags: ["question"],
       }),
       fetchQuestionsOfUser: builder.query({
         query() {
-          return `questions/current_user`;
+          return `questions/current_user/`;
         },
         providesTags: ["question"],
       }),
@@ -127,7 +128,7 @@ export const api = createApi({
       }),
       fetchScoreQuestion: builder.query({
         query(id) {
-          return `scores/questions/${id}`;
+          return `scores/questions/${id}/`;
         },
         providesTags: ["score_question", "question"],
       }),
@@ -141,7 +142,7 @@ export const api = createApi({
       }),
       fetchScoreAnswer: builder.query({
         query(id) {
-          return `scores/answers/${id}`;
+          return `scores/answers/${id}/`;
         },
         providesTags: ["score_answer"],
       }),
@@ -198,6 +199,13 @@ export const api = createApi({
           url: `files/${id}`,
           method: "DELETE",
         }),
+        invalidatesTags: ["file"],
+      }),
+      fetchFiles: builder.query({
+        query(data) {
+          return `files/?search_field=${data?.searchField}&search_field_value=${data?.searchFieldValue}`;
+        },
+        providesTags: ["file"],
       }),
     };
   },
@@ -229,6 +237,7 @@ export const {
   useDeleteAnswerMutation,
   useForgetPasswordMutation,
   useForgetPasswordCallbackMutation,
+  useFetchFilesQuery,
   useDeleteFileMutation,
 } = api;
 export default api;

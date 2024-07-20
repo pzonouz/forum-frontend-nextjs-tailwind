@@ -74,7 +74,8 @@ export default function DashboardPage() {
           setAddress(e?.target?.value);
         }}
         className="input input-bordered"
-        rows={4}
+        rows={8}
+        placeholder="آدرس"
       ></textarea>
       <button
         className="btn btn-primary flex"

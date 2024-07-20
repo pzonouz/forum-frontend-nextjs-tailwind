@@ -29,17 +29,6 @@ const Navbar = () => {
               href="/users/dashboard"
             >
               <div>{user?.nickName}</div>
-              {/* {user?.image ? ( */}
-              {/*   <img */}
-              {/*     alt="" */}
-              {/*     src={"Images/photo.jpg"} */}
-              {/*     className="w-6 h-6 rounded-md" */}
-              {/*   /> */}
-              {/* ) : ( */}
-              {/*   <Link href="/users/dashboard" className="p-2"> */}
-              {/*     <FaUser /> */}
-              {/*   </Link> */}
-              {/* )} */}
             </Link>
             <div className="centered cursor-pointer navbar_bg_hover">
               <Link href="/users/logout" className="p-2">

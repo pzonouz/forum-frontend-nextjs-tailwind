@@ -5,12 +5,12 @@ import * as z from "zod";
 import classNames from "classnames";
 import {
   useCreateQuestionMutation,
-  useFetchQuestionQuery,
-  useFetchQuestionsQuery,
   useFetchUserQuery,
 } from "@/app/redux_toolkit/consumeAPI";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import FileUpload from "./FileUpload";
+import { useSelector } from "react-redux";
+import { createSelector } from "@reduxjs/toolkit";
 
 const schema = z.object({
   title: z
@@ -22,7 +22,11 @@ const schema = z.object({
 const CreateQuestion = () => {
   const [createQuestion, { error, isError, isSuccess }] =
     useCreateQuestionMutation();
-  const [files, setFiles] = useState([]);
+  const filesSelector = createSelector(
+    (state) => state.filesReducer,
+    (state) => state.items,
+  );
+  const files = useSelector(filesSelector);
   const onSubmit = async (data) => {
     data.files = files;
     createQuestion(data);
@@ -67,12 +71,11 @@ const CreateQuestion = () => {
         placeholder="توضیحات سوال"
       />
       <p className="text-xs text-error">{errors.description?.message}</p>
-      <FileUpload filesSetter={setFiles} />
+      <FileUpload />
       <input className="btn btn-primary" type="submit" value="ثبت" />
       {isError && (
         <p className="text-xs text-error">{JSON.stringify(error?.data)}</p>
       )}
-      {isSuccess && <p className="success">{"با موقعیت ایجاد شد"}</p>}
     </form>
   );
 };

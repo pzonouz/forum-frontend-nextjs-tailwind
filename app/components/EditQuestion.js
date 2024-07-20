@@ -10,6 +10,9 @@ import {
 } from "@/app/redux_toolkit/consumeAPI";
 import { useEffect } from "react";
 import ErrorComponent from "./ErrorComponent";
+import FileUploadEdit from "./FileUploadEdit";
+import { createSelector } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 
 const schema = z.object({
   title: z
@@ -23,7 +26,13 @@ const EditQuestion = (props) => {
   const { data: question } = useFetchQuestionQuery(id);
   const [editQuestion, { error, isError, isSuccess }] =
     useEditQuestionMutation();
+  const filesSelector = createSelector(
+    (state) => state.filesReducer,
+    (state) => state.items,
+  );
+  const files = useSelector(filesSelector);
   const onSubmit = async (data) => {
+    data.files = files;
     editQuestion({ id, ...data });
   };
   const { isError: isUserError, data: user } = useFetchUserQuery();
@@ -64,12 +73,12 @@ const EditQuestion = (props) => {
         rows={10}
         placeholder="توضیحات سوال"
       />
+      <FileUploadEdit type={"question"} id={id} />
       <p className="text-xs text-error">{errors.description?.message}</p>
       <input className="btn btn-primary" type="submit" value="ثبت" />
       {isError && (
         <p className="text-xs text-error">{JSON.stringify(error?.data)}</p>
       )}
-      {isSuccess && <p className="success">{"با موقعیت ایجاد شد"}</p>}
     </form>
   );
 };

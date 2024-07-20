@@ -5,6 +5,7 @@ import Link from "next/link";
 import ViewUpQuestion from "./ViewUpQuestion";
 import { FaCheck } from "react-icons/fa";
 import classNames from "classnames";
+import FilesView from "./FilesView";
 
 const QuestionPage = async (props) => {
   const { question } = props;
@@ -38,6 +39,10 @@ const QuestionPage = async (props) => {
           </div>
           <div className="mr-10">
             <div className="mr-3">{question?.description}</div>
+            <FilesView
+              searchField="question_id"
+              searchFieldValue={question?.id}
+            />
             <div className="flex items-center justify-between mt-2">
               <Link
                 href={`/users/${question?.userId}`}

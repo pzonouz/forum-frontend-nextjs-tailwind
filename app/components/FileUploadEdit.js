@@ -1,15 +1,18 @@
 "use client";
 
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
-import { useDeleteFileMutation } from "../redux_toolkit/consumeAPI";
+import {
+  useDeleteFileMutation,
+  useFetchFilesQuery,
+} from "../redux_toolkit/consumeAPI";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { addFile, removeFile } from "../redux_toolkit/filesSlice.js";
+import { addFile, removeFile, setFiles } from "../redux_toolkit/filesSlice.js";
 import { createSelector } from "@reduxjs/toolkit";
 
-const FileUpload = () => {
+const FileUploadEdit = ({ type, id }) => {
   const [deleteFile] = useDeleteFileMutation();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
@@ -18,10 +21,19 @@ const FileUpload = () => {
     (state) => state.items,
   );
   const files = useSelector(filesSelector);
+  const { data: filesFromServer } = useFetchFilesQuery({
+    searchField: `${type}_id`,
+    searchFieldValue: id,
+  });
+  useEffect(() => {
+    if (filesFromServer && filesFromServer?.length > 0) {
+      dispatch(setFiles(filesFromServer));
+    }
+  }, [filesFromServer]);
   const formData = new FormData();
   const getExtension = (filename) => {
-    const splited = filename.split(".");
-    return splited[splited.length - 1];
+    const splited = filename?.split(".");
+    return splited[splited?.length - 1];
   };
   const fileUploadHandler = async (e) => {
     formData.append("file", e.target.files[0]);
@@ -90,4 +102,4 @@ const FileUpload = () => {
   );
 };
 
-export default FileUpload;
+export default FileUploadEdit;

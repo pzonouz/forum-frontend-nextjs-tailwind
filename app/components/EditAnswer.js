@@ -11,6 +11,8 @@ import {
 import { useEffect } from "react";
 import ErrorComponent from "./ErrorComponent";
 import FileUploadEdit from "./FileUploadEdit";
+import { createSelector } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 
 const schema = z.object({
   description: z.string().min(5, { message: "حداقل ۵ کاراکتر را وارد کنید" }),
@@ -19,10 +21,17 @@ const EditAnswer = (props) => {
   const { id } = props;
   const { data: answer } = useFetchAnswerQuery(id);
   const [editAnswer, { error, isError, isSuccess }] = useEditAnswerMutation();
+  const filesSelector = createSelector(
+    (state) => state.filesReducer,
+    (state) => state.items,
+  );
+  const files = useSelector(filesSelector);
   const onSubmit = async (data) => {
+    data.files = files;
     editAnswer({ id, ...data });
   };
   const { isError: isUserError, data: user } = useFetchUserQuery();
+
   useEffect(() => {
     if (isSuccess) {
       window.location.href = `/questions/${answer?.questionId}`;

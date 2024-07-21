@@ -9,8 +9,9 @@ import {
 } from "@/app/redux_toolkit/consumeAPI";
 import { useEffect, useLayoutEffect } from "react";
 import FileUpload from "./FileUpload";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
+import { setFiles } from "../redux_toolkit/filesSlice";
 
 const schema = z.object({
   title: z
@@ -20,6 +21,7 @@ const schema = z.object({
   description: z.string().min(20, { message: "حداقل ۲۰ کاراکتر را وارد کنید" }),
 });
 const CreateQuestion = () => {
+  const dispatch = useDispatch();
   const [createQuestion, { error, isError, isSuccess }] =
     useCreateQuestionMutation();
   const filesSelector = createSelector(
@@ -39,6 +41,7 @@ const CreateQuestion = () => {
   }, [isUserError]);
   useEffect(() => {
     if (isSuccess) {
+      dispatch(setFiles([]));
       window.location.href = "/";
     }
   }, [isSuccess]);

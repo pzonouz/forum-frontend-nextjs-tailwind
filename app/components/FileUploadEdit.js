@@ -13,18 +13,22 @@ import { addFile, removeFile, setFiles } from "../redux_toolkit/filesSlice.js";
 import { createSelector } from "@reduxjs/toolkit";
 
 const FileUploadEdit = ({ type, id }) => {
-  const [deleteFile] = useDeleteFileMutation();
   const [isLoading, setIsLoading] = useState(false);
+  const [deleteFile] = useDeleteFileMutation();
+  const [err, setErr] = useState(null);
   const dispatch = useDispatch();
   const filesSelector = createSelector(
     (state) => state.filesReducer,
     (state) => state.items,
   );
   const files = useSelector(filesSelector);
-  const { data: filesFromServer } = useFetchFilesQuery({
+  const { data: filesFromServer, refetch } = useFetchFilesQuery({
     searchField: `${type}_id`,
     searchFieldValue: id,
   });
+  useEffect(() => {
+    refetch();
+  }, [id]);
   useEffect(() => {
     if (filesFromServer && filesFromServer?.length > 0) {
       dispatch(setFiles(filesFromServer));
@@ -36,7 +40,13 @@ const FileUploadEdit = ({ type, id }) => {
     return splited[splited?.length - 1];
   };
   const fileUploadHandler = async (e) => {
+    if (e.target.files[0]?.size > 2097152) {
+      e.target.value = null;
+      setErr("حداکثر حجم فایل ۲ مگابایت");
+      return;
+    }
     formData.append("file", e.target.files[0]);
+    formData.append(`${type}_id`, id);
     try {
       setIsLoading(true);
       const res = await axios.post(
@@ -59,7 +69,7 @@ const FileUploadEdit = ({ type, id }) => {
               <IoIosCloseCircle
                 className="cursor-pointer absolute -translate-y-1/2 translate-x-1/2 text-red-600"
                 onClick={() => {
-                  // deleteFile(file.id);
+                  deleteFile(file.id);
                   dispatch(removeFile(file));
                 }}
               />
@@ -97,6 +107,7 @@ const FileUploadEdit = ({ type, id }) => {
           className="file-input file-input-bordered w-full"
           onChange={fileUploadHandler}
         />
+        {err && <p>err</p>}
       </div>
     </div>
   );

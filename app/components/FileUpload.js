@@ -3,15 +3,15 @@
 import axios from "axios";
 import { useState } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
-import { useDeleteFileMutation } from "../redux_toolkit/consumeAPI";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { addFile, removeFile } from "../redux_toolkit/filesSlice.js";
 import { createSelector } from "@reduxjs/toolkit";
+import classNames from "classnames";
 
 const FileUpload = () => {
-  const [deleteFile] = useDeleteFileMutation();
   const [isLoading, setIsLoading] = useState(false);
+  const [err, setErr] = useState(null);
   const dispatch = useDispatch();
   const filesSelector = createSelector(
     (state) => state.filesReducer,
@@ -24,6 +24,13 @@ const FileUpload = () => {
     return splited[splited.length - 1];
   };
   const fileUploadHandler = async (e) => {
+    if (e.target.files[0]?.size > 2097152) {
+      e.target.value = null;
+      setErr("حداکثر حجم فایل ۲ مگابایت");
+      return;
+    } else {
+      setErr(null);
+    }
     formData.append("file", e.target.files[0]);
     try {
       setIsLoading(true);
@@ -47,7 +54,7 @@ const FileUpload = () => {
               <IoIosCloseCircle
                 className="cursor-pointer absolute -translate-y-1/2 translate-x-1/2 text-red-600"
                 onClick={() => {
-                  // deleteFile(file.id);
+                  deleteFile(file.id);
                   dispatch(removeFile(file));
                 }}
               />
@@ -82,10 +89,13 @@ const FileUpload = () => {
         <input
           type="file"
           name="file"
-          className="file-input file-input-bordered w-full"
+          className={classNames("file-input file-input-bordered w-full", {
+            "border-error": err,
+          })}
           onChange={fileUploadHandler}
         />
       </div>
+      {err && <p className="text-error text-xs">{err}</p>}
     </div>
   );
 };

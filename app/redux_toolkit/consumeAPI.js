@@ -194,7 +194,7 @@ export const api = createApi({
         },
         providesTags: ["user"],
       }),
-      DeleteFile: builder.mutation({
+      deleteFile: builder.mutation({
         query: (id) => ({
           url: `files/${id}`,
           method: "DELETE",

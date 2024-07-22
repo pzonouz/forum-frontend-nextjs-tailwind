@@ -6,6 +6,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 import {
   useDeleteFileMutation,
   useFetchFilesQuery,
+  useFetchUserQuery,
 } from "../redux_toolkit/consumeAPI";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";

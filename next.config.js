@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: false,
   env: {
-    BACKEND_URL: "http://localhost/api/v1/",
+    BACKEND_URL: "https://automobileforum.ir/api/v1/",
   },
 };
 

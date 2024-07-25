@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useRegisterUserMutation } from "@/app/redux_toolkit/consumeAPI";
-import Loading from "@/app/components/Loading";
 import { useEffect, useState } from "react";
 
 const Register = () => {
@@ -58,7 +57,7 @@ const Register = () => {
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ email: email }),
     }).then((res) => {
-      if (!res.ok) {
+      if (!res.ok && res.status == 409) {
         setEmailError(true);
       } else {
         setEmailError(false);
@@ -71,7 +70,7 @@ const Register = () => {
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ nickName: nickName }),
     }).then((res) => {
-      if (!res.ok) {
+      if (!res.ok && res.status == 409) {
         setNickNameError(true);
       } else {
         setNickNameError(false);

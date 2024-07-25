@@ -201,6 +201,14 @@ export const api = createApi({
         }),
         invalidatesTags: ["file"],
       }),
+      editFile: builder.mutation({
+        query: ({ id, ...file }) => ({
+          url: `files/${id}`,
+          method: "PATCH",
+          body: file,
+        }),
+        invalidatesTags: ["file"],
+      }),
       fetchFiles: builder.query({
         query(data) {
           return `files/?search_field=${data?.searchField}&search_field_value=${data?.searchFieldValue}`;
@@ -239,5 +247,6 @@ export const {
   useForgetPasswordCallbackMutation,
   useFetchFilesQuery,
   useDeleteFileMutation,
+  useEditFileMutation,
 } = api;
 export default api;

@@ -28,7 +28,7 @@ const DeleteQuestion = (props) => {
     <ErrorComponent error="نمیتوانید این سوال را حذف کنید" />
   ) : (
     <div className=" w-screen h-screen">
-      {isLoading && <Loading />}
+      {/* {isLoading && <Loading />} */}
       <div className=" w-1/2 h-1/4 my-auto mx-auto flex items-center justify-between">
         <div
           className="btn btn-error w-20"

@@ -71,7 +71,7 @@ const AnswerActions = (props) => {
   };
   return (
     <div className="relative flex items-center">
-      {(scoreLoading || createScoreLoading || markSolvedLoading) && <Loading />}
+      {/* {(scoreLoading || createScoreLoading || markSolvedLoading) && <Loading />} */}
       {user?.id == question?.userId && (
         <FaCheck
           onClick={() => {

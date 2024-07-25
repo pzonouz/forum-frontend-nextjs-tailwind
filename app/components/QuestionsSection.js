@@ -2,7 +2,6 @@
 import TopQuestions from "./TopQuestions";
 import QuestionsOrder from "./QuestionsOrder";
 import Question from "./Question";
-import Loading from "./Loading.js";
 import { useEffect, useState } from "react";
 import { questionOrderEnum } from "./QuestionsOrder";
 import ErrorComponent from "./ErrorComponent";
@@ -57,9 +56,7 @@ export default function QuestionSection({ className }) {
       <TopQuestions />
       <QuestionsOrder order={order} setOrder={setOrderHandler} />
       <div className="mt-4">
-        {isLoading ? (
-          <Loading />
-        ) : error ? (
+        {error ? (
           <ErrorComponent error="قطع ارتباط با سرور" />
         ) : (
           questions?.map((q) => {

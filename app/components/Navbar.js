@@ -63,22 +63,22 @@ const Navbar = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h16M4"
+                d="M4 6h16M4 12h16M4 18h16"
               />
             </svg>
           </div>
           <ul
             tabIndex="0"
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            className=" text-xl menu dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow flex flex-col gap-1"
           >
             <li>
-              <a>خانه</a>
+              <Link href="/">خانه</Link>
             </li>
             <li>
-              <a>فایلها</a>
+              <Link href="/files">فایلها</Link>
             </li>
             <li>
-              <a>درباره ما</a>
+              <Link href="/aboutus">درباره ما</Link>
             </li>
           </ul>
         </div>

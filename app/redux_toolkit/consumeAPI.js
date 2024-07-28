@@ -218,9 +218,15 @@ export const api = createApi({
       }),
       fetchFilesCollection: builder.query({
         query() {
-          return `files/collection`;
+          return `files/collection/`;
         },
         providesTags: ["file"],
+      }),
+      searchFiles: builder.mutation({
+        query: (filename) => ({
+          url: `files/collection/?title=${filename}`,
+          method: "GET",
+        }),
       }),
       fetchFiles: builder.query({
         query(data) {
@@ -263,5 +269,6 @@ export const {
   useDeleteFileMutation,
   useDeleteFileAdminMutation,
   useEditFileMutation,
+  useSearchFilesMutation,
 } = api;
 export default api;

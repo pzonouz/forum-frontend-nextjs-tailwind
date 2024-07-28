@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { questionOrderEnum } from "./QuestionsOrder";
 import ErrorComponent from "./ErrorComponent";
 import { useFetchQuestionsQuery } from "../redux_toolkit/consumeAPI";
+import Modal from "./Modal";
 
 export default function QuestionSection({ className }) {
   const [order, setOrder] = useState(questionOrderEnum.newest);
@@ -53,6 +54,7 @@ export default function QuestionSection({ className }) {
 
   return (
     <div className={className}>
+      <Modal />
       <TopQuestions />
       <QuestionsOrder order={order} setOrder={setOrderHandler} />
       <div className="mt-4">

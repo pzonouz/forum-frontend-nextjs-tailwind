@@ -72,7 +72,7 @@ const AnswerActions = (props) => {
   return (
     <div className="relative flex items-center">
       {/* {(scoreLoading || createScoreLoading || markSolvedLoading) && <Loading />} */}
-      {user?.id == question?.userId && (
+      {user?.ID == question?.userId && (
         <FaCheck
           onClick={() => {
             makeAnswerSolved(id);

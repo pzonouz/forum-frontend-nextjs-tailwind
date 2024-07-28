@@ -201,6 +201,13 @@ export const api = createApi({
         }),
         invalidatesTags: ["file"],
       }),
+      deleteFileAdmin: builder.mutation({
+        query: (id) => ({
+          url: `files/${id}/admin`,
+          method: "DELETE",
+        }),
+        invalidatesTags: ["file"],
+      }),
       editFile: builder.mutation({
         query: ({ id, ...file }) => ({
           url: `files/${id}`,
@@ -208,6 +215,12 @@ export const api = createApi({
           body: file,
         }),
         invalidatesTags: ["file"],
+      }),
+      fetchFilesCollection: builder.query({
+        query() {
+          return `files/collection`;
+        },
+        providesTags: ["file"],
       }),
       fetchFiles: builder.query({
         query(data) {
@@ -246,7 +259,9 @@ export const {
   useForgetPasswordMutation,
   useForgetPasswordCallbackMutation,
   useFetchFilesQuery,
+  useFetchFilesCollectionQuery,
   useDeleteFileMutation,
+  useDeleteFileAdminMutation,
   useEditFileMutation,
 } = api;
 export default api;

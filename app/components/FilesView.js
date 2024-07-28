@@ -9,7 +9,6 @@ const FilesView = async (props) => {
     );
     files = await res.json();
   } catch (error) {}
-  console.log(files);
   return (
     <div className={classes}>
       <div className="flex gap-2 items-center">

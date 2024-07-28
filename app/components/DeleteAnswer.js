@@ -22,7 +22,7 @@ const DeleteAnswer = (props) => {
   }, [isSuccess, answer]);
 
   return isUserError ||
-    (user?.id != answer?.userId && user?.role != "admin") ? (
+    (user?.ID != answer?.userId && user?.Role != "admin") ? (
     <ErrorComponent error="نمیتوانید این جواب را حذف کنید" />
   ) : (
     <div className=" w-screen h-screen">

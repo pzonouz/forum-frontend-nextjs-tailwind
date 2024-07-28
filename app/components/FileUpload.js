@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { addFile, removeFile } from "../redux_toolkit/filesSlice.js";
 import { createSelector } from "@reduxjs/toolkit";
 import classNames from "classnames";
-import { useFetchUserQuery } from "../redux_toolkit/consumeAPI.js";
 
 const FileUpload = () => {
   const [isLoading, setIsLoading] = useState(false);

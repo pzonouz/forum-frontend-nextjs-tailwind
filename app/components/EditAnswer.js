@@ -48,7 +48,7 @@ const EditAnswer = (props) => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col px-4 py-2 gap-2"
     >
-      {isUserError || (user?.id != answer?.userId && user?.role != "admin") ? (
+      {isUserError || (user?.ID != answer?.userId && user?.Role != "admin") ? (
         <ErrorComponent error="نمیتوانید این سوال را ویرایش کنید" />
       ) : null}
       <textarea

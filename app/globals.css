@@ -21,6 +21,9 @@
     @apply bg-blue-100;
   }
 }
+.full_screen_height {
+  min-height: calc(100vh - 3.5rem);
+}
 nextjs-portal {
   display: none;
 }

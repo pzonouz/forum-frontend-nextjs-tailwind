@@ -53,7 +53,7 @@ const EditQuestion = (props) => {
       className="flex flex-col px-4 py-2 gap-2"
     >
       {isUserError ||
-      (user?.id != question?.userId && user?.role != "admin") ? (
+      (user?.ID != question?.userId && user?.Role != "admin") ? (
         <ErrorComponent error="نمیتوانید این سوال را ویرایش کنید" />
       ) : null}
       <input

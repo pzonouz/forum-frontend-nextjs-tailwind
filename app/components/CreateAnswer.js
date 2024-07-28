@@ -54,7 +54,7 @@ const CreateAnswer = (props) => {
     }
   }, [isSuccessAnswers, router, reset]);
   return (
-    <div>
+    <div className="h-full w-full relative">
       {!isSuccess && <ErrorComponent error="برای مشارکت لطفا وارد شوید" />}
       <form
         onSubmit={handleSubmit(createAnswerHandler)}

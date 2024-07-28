@@ -39,8 +39,8 @@ export default function DashboardPage() {
   }, [isError, editUserSuccess]);
   useEffect(() => {
     if (isSuccess) {
-      setNickName(user?.nickName);
-      setAddress(user?.address);
+      setNickName(user?.NickName);
+      setAddress(user?.Address);
     }
   }, [isSuccess]);
   const sumbitHandler = (e) => {

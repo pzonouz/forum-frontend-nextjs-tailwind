@@ -3,6 +3,8 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import ReduxProvider from "./components/ReduxProvider";
 import { ToastContainer } from "react-toastify";
+import Posts from "./components/Posts";
+import Files from "./components/Files";
 
 const iranSans = localFont({
   src: [
@@ -55,10 +57,20 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" dir="rtl" data-theme="light">
       <body className={iranSans.className}>
-        <ToastContainer />
+        <ToastContainer rtl />
         <ReduxProvider>
           <Navbar />
-          {children}
+          <div className="flex flex-row gap-1 w-full">
+            <Posts className="max-w-sm w-full hidden md:block" />
+            <div
+              className={
+                "w-full border-y-gray-700 border-x-[2px] full_screen_height"
+              }
+            >
+              {children}
+            </div>
+            <Files className="max-w-sm w-full hidden lg:block" />
+          </div>
         </ReduxProvider>
       </body>
     </html>

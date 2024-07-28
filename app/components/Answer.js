@@ -13,7 +13,7 @@ const Answer = (props) => {
           "bg-green-200": answer?.solved,
         })}
       >
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
           <AnswerActions question={question} answer={answer} />
           <div>{answer?.description}</div>
         </div>

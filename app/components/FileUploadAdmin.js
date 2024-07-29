@@ -72,9 +72,7 @@ const FileUploadAdmin = () => {
       <input
         type="file"
         name="file"
-        className={classNames("file-input file-input-bordered w-full", {
-          "border-error": fileErr,
-        })}
+        className={classNames("file-input file-input-bordered w-full")}
         onChange={fileUploadHandler}
       />
     </div>

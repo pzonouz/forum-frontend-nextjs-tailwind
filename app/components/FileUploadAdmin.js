@@ -9,20 +9,12 @@ const FileUploadAdmin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [titleErr, setTitleErr] = useState(null);
-  const [fileErr, setFileErr] = useState(null);
   const formData = new FormData();
   const fileUploadHandler = async (e) => {
     if (titleErr) return;
     if (title.length == 0) {
       setTitleErr("بدون نام");
       return;
-    }
-    if (e.target.files[0]?.size > 52428800) {
-      e.target.value = null;
-      setFileErr("حداکثر حجم فایل ۵۰ مگابایت");
-      return;
-    } else {
-      setFileErr(null);
     }
     formData.append("file", e.target.files[0]);
     formData.append("title", title);
@@ -85,7 +77,6 @@ const FileUploadAdmin = () => {
         })}
         onChange={fileUploadHandler}
       />
-      {fileErr && <p className="text-error text-xs -mt-2">{fileErr}</p>}
     </div>
   );
 };

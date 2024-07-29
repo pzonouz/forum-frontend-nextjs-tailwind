@@ -41,7 +41,7 @@ const Login = () => {
   } = useForm({ resolver: zodResolver(schema) });
   return (
     <div className=" w-72 mx-auto mt-12">
-      <h1 className=" text-xl font-bold centered">ورود</h1>
+      <div className=" text-xl font-bold centered">ورود</div>
       <form
         onSubmit={handleSubmit(submitHandler)}
         className=" flex flex-col w-full gap-2 justify-center"

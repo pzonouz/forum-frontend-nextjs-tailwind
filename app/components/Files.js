@@ -12,9 +12,9 @@ const Files = async (props) => {
   } catch (error) {}
   return (
     <div className={className}>
-      <h1 className="font-xl text-center font-bold text-lg mt-4">
+      <h2 className="font-xl text-center font-bold text-lg mt-4">
         آخرین فایلهای اضافه شده
-      </h1>
+      </h2>
       <div className="flex flex-col px-2 mt-4 gap-2">
         {files?.map((item) => (
           <Link

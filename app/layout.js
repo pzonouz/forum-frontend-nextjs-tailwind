@@ -50,7 +50,7 @@ const iranSans = localFont({
 
 export const metadata = {
   title: "انجمن تخصصی برق خودرو",
-  description: "پرسش و پاسخ در زمینه برق خودرو",
+  description: "برق خودرو،سیم کشی،ایسیو،ECU،تست موتور،عیب یابی،دیاگ",
 };
 
 export default function RootLayout({ children }) {

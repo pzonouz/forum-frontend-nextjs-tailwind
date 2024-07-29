@@ -40,7 +40,7 @@ const ForgetPassordPage = () => {
       className="flex flex-col w-5/6 max-w-sm mx-auto mt-12 gap-2"
       onSubmit={handleSubmit(sumbitHandler)}
     >
-      <h1 className=" text-center text-xl font-bold mb-6">بازیابی پسورد</h1>
+      <div className=" text-center text-xl font-bold mb-6">بازیابی پسورد</div>
       <input
         {...register("email")}
         className={classNames("input input-bordered", {

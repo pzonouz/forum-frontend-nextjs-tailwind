@@ -50,7 +50,7 @@ const ForgetPasswordCallback = ({ params }) => {
       onSubmit={handleSubmit(sumbitHandler)}
       className="flex flex-col gap-2 w-5/6 max-w-sm mx-auto mt-12"
     >
-      <h1 className=" text-center text-xl font-bold mb-6">تغییر پسورد</h1>
+      <div className=" text-center text-xl font-bold mb-6">تغییر پسورد</div>
       <input
         className={classNames("input input-bordered", {
           "input-error": errors?.password1,

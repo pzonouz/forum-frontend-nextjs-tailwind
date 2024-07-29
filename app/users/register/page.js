@@ -83,7 +83,7 @@ const Register = () => {
   };
   return (
     <div className="w-72 mx-auto mt-12">
-      <h1 className="w-full text-xl font-bold centered">ثبت نام</h1>
+      <div className="w-full text-xl font-bold centered">ثبت نام</div>
       <form
         onSubmit={handleSubmit(submitHandler)}
         className="w-full mx-auto flex flex-col gap-2"

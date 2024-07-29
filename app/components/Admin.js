@@ -5,15 +5,18 @@ import { useEffect } from "react";
 import FilesAdmin from "./FilesAdmin";
 
 const Admin = () => {
-  const { data: user, isError, isSuccess } = useFetchUserQuery();
+  const { data: user, isError, isSuccess, error } = useFetchUserQuery();
   useEffect(() => {
     if (isSuccess && user?.Role != "admin") {
+      window.location.href = "/users/login";
+    }
+    if (isError && error?.status == 401) {
       window.location.href = "/users/login";
     }
   }, [isSuccess]);
   return (
     <div>
-      {isError ? (
+      {isError && error?.status != 401 ? (
         <ErrorComponent error={"قطع ارتباط با سرور"} />
       ) : (
         <FilesAdmin />

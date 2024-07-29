@@ -28,7 +28,8 @@ const FileUploadAdmin = () => {
       toast.success("با موفقیت انجام شد");
       window.location.reload();
     } catch (error) {
-      toast.error(error);
+      setIsLoading(false);
+      toast.error(error?.message);
     }
     e.target.value = null;
   };

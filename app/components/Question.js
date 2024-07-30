@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Question = ({
   id,
-  scoreCount,
+  score,
   view,
   answerCount,
   title,

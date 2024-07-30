@@ -18,8 +18,8 @@ const Question = ({
     <div className="px-4 py-2 mt-1 border-b-gray-400 border-b-[1px]">
       <div className="flex flex-row items-center ">
         <div className="question_header_item">
-          <p>{scoreCount}</p>
-          <p>رای</p>
+          <p>{score}</p>
+          <p>امتیاز</p>
         </div>
         <div
           className={classNames("question_header_item", {

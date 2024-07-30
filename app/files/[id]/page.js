@@ -8,7 +8,9 @@ const FilePage = async ({ params }) => {
   return (
     <div>
       <div className="mx-auto w-3/4 flex flex-col gap-2">
-        <h1 className="font-bold text-2xl mt-12 mx-auto">{file?.title}</h1>
+        <h1 className="font-bold text-2xl mt-12 mx-auto text-pretty">
+          {file?.title}
+        </h1>
         <a
           className="btn btn-primary mx-auto"
           href={`${process.env.BACKEND_URL}/files/download/${file?.filename}`}

@@ -8,7 +8,7 @@ const FilePage = async ({ params }) => {
   return (
     <div>
       <div className="mx-auto w-3/4 flex flex-col gap-2">
-        <h1 className="font-bold text-2xl mt-12 mx-auto text-pretty">
+        <h1 className="font-bold text-lg text-center mt-12 mx-auto text-pretty">
           {file?.title}
         </h1>
         <a

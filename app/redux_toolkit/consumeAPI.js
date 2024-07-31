@@ -227,6 +227,7 @@ export const api = createApi({
           url: `files/collection/?title=${filename}`,
           method: "GET",
         }),
+        providesTags: ["file"],
       }),
       fetchFiles: builder.query({
         query(data) {

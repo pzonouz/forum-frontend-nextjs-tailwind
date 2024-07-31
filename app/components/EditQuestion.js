@@ -67,7 +67,7 @@ const EditQuestion = (props) => {
       <p className="text-xs text-error">{errors.title?.message}</p>
       <textarea
         {...register("description")}
-        className={classNames("input input-bordered", {
+        className={classNames("input input-bordered h-28", {
           "input-error": errors?.description,
         })}
         rows={10}

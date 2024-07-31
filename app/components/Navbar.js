@@ -9,6 +9,12 @@ import { useFetchUserQuery } from "../redux_toolkit/consumeAPI";
 
 const Navbar = () => {
   const { data: user, isSuccess } = useFetchUserQuery();
+  const closeElem = () => {
+    const elem = document.activeElement;
+    if (elem) {
+      elem?.blur();
+    }
+  };
 
   return (
     <navbar className="flex flex-row-reverse justify-between text-xl border-b-gray-500 border-b-[1px]">
@@ -18,7 +24,6 @@ const Navbar = () => {
             <FaSearch />
           </Link>
         </div>
-
         {isSuccess && (
           <>
             <Link
@@ -71,13 +76,13 @@ const Navbar = () => {
             tabIndex="0"
             className=" text-xl menu dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow flex flex-col gap-1"
           >
-            <li>
+            <li onClick={closeElem}>
               <Link href="/">خانه</Link>
             </li>
-            <li>
+            <li onClick={closeElem} className="lg:hidden">
               <Link href="/files">فایلها</Link>
             </li>
-            <li>
+            <li onClick={closeElem}>
               <Link href="/aboutus">درباره ما</Link>
             </li>
           </ul>

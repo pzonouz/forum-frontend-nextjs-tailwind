@@ -5,6 +5,7 @@ import ReduxProvider from "./components/ReduxProvider";
 import { ToastContainer } from "react-toastify";
 import Posts from "./components/Posts";
 import Files from "./components/Files";
+import FilesSearch from "./components/FilesSearch";
 
 const iranSans = localFont({
   src: [
@@ -52,6 +53,13 @@ export const metadata = {
   title: "انجمن تخصصی برق خودرو",
   description: "برق خودرو،سیم کشی،ایسیو،ECU،تست موتور،عیب یابی،دیاگ",
 };
+let files = [];
+try {
+  const res = await fetch(`${process.env.BACKEND_URL}/files/collection/`, {
+    cache: "no-store",
+  });
+  files = await res?.json();
+} catch (error) {}
 
 export default function RootLayout({ children }) {
   return (
@@ -69,7 +77,11 @@ export default function RootLayout({ children }) {
             >
               {children}
             </div>
-            <Files className="max-w-sm w-full hidden lg:block" />
+            {/* <Files className="max-w-sm w-full hidden lg:block" /> */}
+            <FilesSearch
+              files={files}
+              className="max-w-sm w-full hidden lg:block"
+            />
           </div>
         </ReduxProvider>
       </body>

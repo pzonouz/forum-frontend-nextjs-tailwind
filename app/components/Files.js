@@ -1,5 +1,6 @@
 import Link from "next/link";
 import File from "./File";
+import classNames from "classnames";
 
 const Files = async (props) => {
   const { className } = props;
@@ -15,15 +16,19 @@ const Files = async (props) => {
       <h2 className="font-xl text-center font-bold text-lg mt-4">
         آخرین فایلهای اضافه شده
       </h2>
-      <div className="flex flex-col px-2 mt-4 gap-2">
-        {files?.map((item) => (
+      <div className="flex flex-col mt-9 p-4 bg-gray-100 text-md rounded-sm border-y-gray-200 border-[1px]">
+        {files?.map((file, index) => (
           <Link
-            href={`/files/${item?.id}`}
-            key={item?.id}
-            data={item}
-            className={`${className} text-primary text-lg`}
+            className={classNames(
+              "cursor-pointer text-primary p-4 border-gray-300 border-[1px] hover:text-orange-500 ",
+              {
+                "bg-gray-300": (index + 1) % 2,
+              },
+            )}
+            href={`files/${file?.id}`}
+            key={file?.id}
           >
-            {item?.title}
+            {file?.title}
           </Link>
         ))}
       </div>

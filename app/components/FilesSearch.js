@@ -1,37 +1,40 @@
 "use client";
 
-import React from "react";
-
 import { useState } from "react";
 import { useSearchFilesMutation } from "../redux_toolkit/consumeAPI";
 import Link from "next/link";
 import Loading from "../components/Loading";
 import { toast } from "react-toastify";
+import classNames from "classnames";
 
 const FilesSearch = (props) => {
-  const { files: preferchedFiles } = props;
+  const { files: preferchedFiles, className } = props;
   const [files, setFiles] = useState([...preferchedFiles]);
   const [loading, setLoading] = useState(false);
-  const [searched, setSearched] = useState(false);
+  const [searching, setSearching] = useState(false);
   const [shortError, setShortError] = useState(false);
   const [searchFile] = useSearchFilesMutation();
   const changeHandler = async (title) => {
     if (title.length == 0) {
       setFiles(preferchedFiles);
       setShortError(false);
+      setSearching(false);
       return;
     }
+    setSearching(true);
     if (title.length < 3 && title.length > 0) {
       setShortError(true);
+      setSearching(false);
       return;
     } else {
+      setSearching(true);
       setShortError(false);
     }
     try {
       setLoading(true);
       const files = await searchFile(title).unwrap();
       setFiles(files);
-      setSearched(true);
+      setSearching(true);
       setLoading(false);
     } catch (error) {
       toast.error(error);
@@ -39,7 +42,7 @@ const FilesSearch = (props) => {
     }
   };
   return (
-    <div className="mx-4">
+    <div className={`mx-4 ${className}`}>
       {loading && <Loading />}
       <label className="input input-bordered flex items-center gap-2 mt-4">
         <svg
@@ -57,7 +60,7 @@ const FilesSearch = (props) => {
         <input
           type="text"
           className="grow"
-          placeholder="جستجو"
+          placeholder="جستجو در تمام فایلها"
           onChange={(e) => {
             changeHandler(e.target.value);
           }}
@@ -66,17 +69,29 @@ const FilesSearch = (props) => {
       {shortError && (
         <p className="text-xs text-error">حداقل سه حرف وارد نمایید</p>
       )}
-      <div className="flex flex-col gap-2 mt-4 px-4 text-lg">
-        {files?.map((file) => (
+
+      {!searching && (
+        <h2 className="font-xl text-center font-bold text-lg mt-4">
+          آخرین فایلهای اضافه شده
+        </h2>
+      )}
+
+      <div className="flex flex-col mt-4 p-4 bg-gray-100 text-md rounded-sm border-y-gray-200 border-[1px]">
+        {files?.map((file, index) => (
           <Link
-            className="cursor-pointer text-primary"
+            className={classNames(
+              "cursor-pointer text-primary p-4 border-gray-300 border-[1px] hover:text-orange-500 ",
+              {
+                "bg-gray-300": (index + 1) % 2,
+              },
+            )}
             href={`files/${file?.id}`}
             key={file?.id}
           >
             {file?.title}
           </Link>
         ))}
-        {!files.length && searched && (
+        {!files.length && searching && (
           <div className="flex flex-col items-center gap-4">
             <div className="text-gray-600">فایلی با این مشخصات یافت نشد</div>
             <Link className="btn btn-primary" href="/files/request">

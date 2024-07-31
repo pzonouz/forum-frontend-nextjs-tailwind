@@ -1,22 +1,30 @@
 "use client";
 
-import { useState } from "react";
-import { useSearchFilesMutation } from "../redux_toolkit/consumeAPI";
+import { useEffect, useState } from "react";
+import {
+  useFetchFilesCollectionQuery,
+  useSearchFilesMutation,
+} from "../redux_toolkit/consumeAPI";
 import Link from "next/link";
 import Loading from "../components/Loading";
 import { toast } from "react-toastify";
 import classNames from "classnames";
 
 const FilesSearch = (props) => {
-  const { files: preferchedFiles, className } = props;
-  const [files, setFiles] = useState([...preferchedFiles]);
+  const { className } = props;
+  const { data } = useFetchFilesCollectionQuery();
+  const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searching, setSearching] = useState(false);
   const [shortError, setShortError] = useState(false);
   const [searchFile] = useSearchFilesMutation();
+
+  useEffect(() => {
+    setFiles(data);
+  }, [data]);
   const changeHandler = async (title) => {
     if (title.length == 0) {
-      setFiles(preferchedFiles);
+      setFiles(data);
       setShortError(false);
       setSearching(false);
       return;
@@ -32,8 +40,8 @@ const FilesSearch = (props) => {
     }
     try {
       setLoading(true);
-      const files = await searchFile(title).unwrap();
-      setFiles(files);
+      const search = await searchFile(title).unwrap();
+      setFiles(search);
       setSearching(true);
       setLoading(false);
     } catch (error) {
@@ -91,7 +99,7 @@ const FilesSearch = (props) => {
             {file?.title}
           </Link>
         ))}
-        {!files.length && searching && (
+        {!files?.length && searching && (
           <div className="flex flex-col items-center gap-4">
             <div className="text-gray-600">فایلی با این مشخصات یافت نشد</div>
             <Link className="btn btn-primary" href="/files/request">

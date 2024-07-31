@@ -53,13 +53,10 @@ export const metadata = {
   title: "انجمن تخصصی برق خودرو",
   description: "برق خودرو،سیم کشی،ایسیو،ECU،تست موتور،عیب یابی،دیاگ",
 };
-let files = [];
-try {
-  const res = await fetch(`${process.env.BACKEND_URL}/files/collection/`, {
-    cache: "no-store",
-  });
-  files = await res?.json();
-} catch (error) {}
+const res = await fetch(`${process.env.BACKEND_URL}/files/collection/`, {
+  cache: "no-store",
+});
+const files = await res?.json();
 
 export default function RootLayout({ children }) {
   return (

@@ -13,7 +13,7 @@ const Admin = () => {
     if (isError && error?.status == 401) {
       window.location.href = "/users/login";
     }
-  }, [isSuccess]);
+  }, [isSuccess, isError, error]);
   return (
     <div>
       {isError && error?.status != 401 ? (

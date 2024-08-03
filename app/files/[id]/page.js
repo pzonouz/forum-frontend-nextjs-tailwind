@@ -13,7 +13,7 @@ const FilePage = async ({ params }) => {
         </h1>
         <a
           className="btn btn-primary mx-auto"
-          href={`${process.env.BACKEND_URL}/files/download/${file?.filename}`}
+          href={`${process.env.BACKEND_URL}files/download/${file?.filename}`}
         >
           دانلود
         </a>

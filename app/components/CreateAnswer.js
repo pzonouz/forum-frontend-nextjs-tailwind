@@ -62,7 +62,7 @@ const CreateAnswer = (props) => {
       >
         <textarea
           className={classNames(
-            "border-[1px] outline-none p-2 rounded-md w-full border-gray-400",
+            "border-[1px] outline-none p-2 rounded-md w-full border-gray-400 h-28",
             { "border-red-600": errors?.description?.message },
           )}
           rows={10}

@@ -93,7 +93,7 @@ const FilesSearch = (props) => {
                 "bg-gray-300": (index + 1) % 2,
               },
             )}
-            href={`files/${file?.id}`}
+            href={`${process.env.WEBSITE_NAME}/files/${file?.id}`}
             key={file?.id}
           >
             {file?.title}

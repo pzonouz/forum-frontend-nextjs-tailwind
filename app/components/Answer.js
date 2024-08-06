@@ -15,7 +15,7 @@ const Answer = (props) => {
       >
         <div className="flex items-center gap-2">
           <AnswerActions question={question} answer={answer} />
-          <div>{answer?.description}</div>
+          <div className="whitespace-pre-wrap">{answer?.description}</div>
         </div>
         <FilesView
           classes={" px-10 mt-2"}

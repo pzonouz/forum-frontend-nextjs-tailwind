@@ -4,7 +4,7 @@ import QuestionSection from "./components/QuestionsSection";
 const Home = () => {
   return (
     <div className="w-full">
-      <div className="text-center max-w-md mx-auto my-4">
+      <div className="text-center max-w-md mx-auto my-4 md:hidden">
         <Link href="/files" className="btn btn-success text-white ">
           ورد به بخش نقشه و فایهای بیکد و ریمپ انواع ایسیو ها
         </Link>
